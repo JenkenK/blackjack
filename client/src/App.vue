@@ -1,47 +1,25 @@
 <template>
-  <div>
+  <div id="app">
     <h1>BlackJack</h1>
-    <div>Deck ID: {{ this.deck_id }}</div>
-    <br />
-    <button v-on:click="drawCards">Draw Cards</button>
-    <div>{{ this.player.hand }}</div>
-    <div>{{ this.player.cardImgs }}</div>
-    <img :src="player.cardImgs[0]" alt="" />
-    <img :src="player.cardImgs[1]" alt="" />
+    <game-table></game-table>
   </div>
 </template>
 
 <script>
-import CardsAPI from "./api/CardsAPI.js";
+import GameTable from "./components/GameTable";
 
 export default {
-  data() {
-    return {
-      deck_id: "",
-      player: {
-        hand: [],
-        cardImgs: [],
-      },
-    };
-  },
-
-  mounted() {
-    CardsAPI.shuffleNewDeck().then((res) => {
-      this.deck_id = res.deck_id;
-    });
-  },
-
-  methods: {
-    drawCards() {
-      CardsAPI.draw(this.deck_id, 2).then((res) => {
-        res.cards.forEach((card) => {
-          this.player.hand.push(card);
-          this.player.cardImgs.push(card.image);
-        });
-      });
-    },
+  name: "app",
+  components: {
+    "game-table": GameTable,
   },
 };
 </script>
 
-<style></style>
+<style>
+#app {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+</style>
