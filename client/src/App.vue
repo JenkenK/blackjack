@@ -1,9 +1,13 @@
 <template>
   <div>
     <h1>BlackJack</h1>
-    <div>{{ drawCards(this.deck_id, 2) }}</div>
-    <div>{{ this.deck_id }}</div>
+    <div>Deck ID: {{ this.deck_id }}</div>
+    <br />
+    <button v-on:click="drawCards">Draw Cards</button>
     <div>{{ this.player.hand }}</div>
+    <div>{{ this.player.cardImgs }}</div>
+    <img :src="player.cardImgs[0]" alt="" />
+    <img :src="player.cardImgs[1]" alt="" />
   </div>
 </template>
 
@@ -16,6 +20,7 @@ export default {
       deck_id: "",
       player: {
         hand: [],
+        cardImgs: [],
       },
     };
   },
@@ -31,6 +36,7 @@ export default {
       CardsAPI.draw(this.deck_id, 2).then((res) => {
         res.cards.forEach((card) => {
           this.player.hand.push(card);
+          this.player.cardImgs.push(card.image);
         });
       });
     },
