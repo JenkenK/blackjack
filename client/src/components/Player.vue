@@ -1,10 +1,13 @@
 <template>
   <div id="player">
     <h2>Player</h2>
+    <hr />
     <div>{{ this.player.hand }}</div>
-    <div>{{ this.player.cardImgs }}</div>
-    <img :src="player.cardImgs[0]" alt="" />
-    <img :src="player.cardImgs[1]" alt="" />
+    <hr />
+    <div>{{ this.player.cardImg }}</div>
+    <hr />
+    <img :src="player.cardImg[0]" alt="" />
+    <img :src="player.cardImg[1]" alt="" />
   </div>
 </template>
 
@@ -16,8 +19,8 @@ export default {
   data() {
     return {
       player: {
-        cardImgs: [],
         hand: [],
+        cardImg: [],
       },
     };
   },

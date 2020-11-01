@@ -18,7 +18,11 @@ export default {
       deck_id: "",
       player: {
         hand: [],
-        cardImgs: [],
+        cardImg: [],
+      },
+      dealer: {
+        hand: [],
+        cardImg: [],
       },
     };
   },
@@ -29,13 +33,13 @@ export default {
   },
   methods: {
     drawCards() {
-      CardsAPI.draw(this.deck_id, 2).then((res) => {
-        console.log(res);
-        res.cards.forEach((card) => {
-          this.player.hand.push(card);
-          this.player.cardImgs.push(card.image);
-        });
+      CardsAPI.draw(this.deck_id, 4).then((res) => {
+        this.player.hand.push(res.cards[0], res.cards[1]);
+        this.player.cardImg.push(res.cards[0].image, res.cards[1].image);
         eventBus.$emit("player", this.player);
+        this.dealer.hand.push(res.cards[2], res.cards[3]);
+        this.dealer.cardImg.push(res.cards[2].image, res.cards[3].image);
+        eventBus.$emit("dealer", this.dealer);
       });
     },
   },

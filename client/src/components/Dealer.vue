@@ -1,7 +1,34 @@
-<template><div id="dealer"></div></template>
+<template>
+  <div id="dealer">
+    <h2>Dealer</h2>
+    <hr />
+    <div>{{ this.dealer.hand }}</div>
+    <hr />
+    <div>{{ this.dealer.cardImg }}</div>
+    <hr />
+    <!-- <img :src="dealer.cardImg[0]" alt="" /> -->
+    <img :src="dealer.cardImg[1]" alt="" />
+  </div>
+</template>
 
 <script>
-export default {};
+import { eventBus } from "../main.js";
+export default {
+  name: "dealer",
+  data() {
+    return {
+      dealer: {
+        hand: [],
+        cardImg: [],
+      },
+    };
+  },
+  mounted() {
+    eventBus.$on("dealer", (data) => {
+      this.dealer = data;
+    });
+  },
+};
 </script>
 
 <style>
