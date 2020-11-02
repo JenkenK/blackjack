@@ -12,8 +12,9 @@
       <div>
         <div>{{ this.dealer.hand }}</div>
         <hr />
-        <!-- <img :src="dealer.cardImg[0]" alt="" /> -->
-        <img :src="dealer.cardImg[1]" alt="" />
+        <div v-for="(card, index) in this.dealer.cardImg" :key="index">
+          <img :src="card" alt="" />
+        </div>
         <p>Total Score: {{ totalHandValue(dealer) }}</p>
         <p>Number of Cards: {{ this.dealer.cardNum }}</p>
       </div>
@@ -29,6 +30,9 @@
         </div>
         <br />
         <button v-on:click="playerHit" :disabled="!playerTurn">HIT ME</button>
+        <button v-on:click="dealerTurn(dealer)" :disabled="!playerTurn">
+          Stick
+        </button>
         <p>Total Score: {{ totalHandValue(player) }}</p>
         <p>Number of Cards: {{ this.player.cardNum }}</p>
       </div>
@@ -90,6 +94,12 @@ export default {
       this.player.hand = [];
       this.dealer.hand = [];
       this.playerTurn = true;
+    },
+    resetGame() {
+      this.gameEnd = false;
+      this.playerTurn = false;
+      this.message = "";
+      this.player.cardNum = 0;
     },
 
     totalHandValue(player) {
@@ -167,6 +177,17 @@ export default {
 
     hasBlackjack() {
       return this.player.cardNum === 2 && this.player.cardTotal === 21;
+    },
+
+    dealerTurn() {
+      this.playerTurn = false;
+      this.hitMe(this.dealer, 1).then(() => {
+        if (this.dealer.cardTotal > 16) {
+          this.checkWinner();
+        } else {
+          this.dealerTurn();
+        }
+      });
     },
 
     writeResult(result) {
