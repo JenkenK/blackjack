@@ -5,13 +5,16 @@
       <div>Deck ID: {{ this.deck_id }}</div>
       <br />
       <button v-on:click="drawCards">Draw Cards</button>
+      <br />
+      <button class="new-game" @click="resetGame()" :disabled="playerTurn">
+        Deal Again!
+      </button>
+      <hr />
     </div>
     <div id="dealer">
       <h2>Dealer</h2>
-      <hr />
       <div>
         <div>{{ this.dealer.hand }}</div>
-        <hr />
         <div id="dealer-img">
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
@@ -22,11 +25,10 @@
       </div>
     </div>
     <div id="player">
-      <h2>Player</h2>
       <hr />
+      <h2>Player</h2>
       <div>
         <div>{{ this.player.hand }}</div>
-        <hr />
         <div id="player-img">
           <div v-for="(card, index) in this.player.cardImg" :key="index">
             <img :src="card" alt="" />
@@ -42,6 +44,7 @@
       </div>
     </div>
     <div class="col-3 sidebar">
+      <hr />
       <message-box v-if="message" :message="message"></message-box>
     </div>
   </div>
@@ -114,6 +117,14 @@ export default {
       this.playerTurn = false;
       this.message = "";
       this.player.cardNum = 0;
+      this.dealer.cardNum = 0;
+      this.player.hand = [];
+      this.dealer.hand = [];
+      this.player.cardImg = [];
+      this.dealer.cardImg = [];
+      this.player.cardTotal = 0;
+      this.dealer.cardTotal = 0;
+      this.drawCards();
     },
 
     totalHandValue(player) {
@@ -231,5 +242,10 @@ export default {
 #player-img {
   display: flex;
   justify-content: center;
+}
+
+#dealer-img > div:first-child {
+  /* visibility: hidden; */
+  display: none;
 }
 </style>
