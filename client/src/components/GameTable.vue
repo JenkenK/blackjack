@@ -24,8 +24,8 @@
       <div>
         <div>{{ this.player.hand }}</div>
         <hr />
-        <div v-for="(image, index) in this.player.cardImg" :key="index">
-          <img :src="player.cardImg[image]" alt="" />
+        <div v-for="(card, index) in this.player.cardImg" :key="index">
+          <img :src="card" alt="" />
         </div>
         <br />
         <button v-on:click="playerHit" :disabled="!playerTurn">HIT ME</button>
@@ -124,6 +124,7 @@ export default {
       return CardsAPI.draw(this.deck_id, number).then((res) => {
         res.cards.forEach((card) => {
           player.hand.push(card);
+          player.cardImg.push(card.image);
           player.cardNum += 1;
         });
       });
