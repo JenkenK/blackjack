@@ -9,21 +9,21 @@
     <div id="dealer">
       <h2>Dealer</h2>
       <hr />
-      <div v-if="dealer">
+      <div>
         <div>{{ this.dealer.hand }}</div>
         <hr />
-        <!-- <img :src="dealer.hand[0].image" alt="" /> -->
-        <img :src="dealer.hand[1].image" alt="" />
+        <!-- <img :src="dealer.cardImg[0]" alt="" /> -->
+        <img :src="dealer.cardImg[1]" alt="" />
       </div>
     </div>
     <div id="player">
       <h2>Player</h2>
       <hr />
-      <div v-if="player">
+      <div>
         <div>{{ this.player.hand }}</div>
         <hr />
-        <img :src="player.hand[0].image" alt="" />
-        <img :src="player.hand[1].image" alt="" />
+        <img :src="player.cardImg[0]" alt="" />
+        <img :src="player.cardImg[1]" alt="" />
       </div>
     </div>
   </div>
@@ -40,10 +40,12 @@ export default {
       player: {
         hand: [],
         cardTotal: 0,
+        cardImg: [],
       },
       dealer: {
         hand: [],
         cardTotal: 0,
+        cardImg: [],
       },
     };
   },
@@ -57,8 +59,10 @@ export default {
       CardsAPI.draw(this.deck_id, 4).then((res) => {
         // player side
         this.player.hand.push(res.cards[0], res.cards[2]);
+        this.player.cardImg.push(res.cards[0].image, res.cards[2].image);
         //dealer side
         this.dealer.hand.push(res.cards[1], res.cards[3]);
+        this.dealer.cardImg.push(res.cards[1].image, res.cards[3].image);
       });
     },
   },
