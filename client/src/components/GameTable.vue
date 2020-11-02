@@ -16,7 +16,9 @@
       <div>
         <div>{{ this.dealer.hand }}</div>
         <div id="dealer-img">
-          <img src="../assets/back_of_card.png" height="325" width="233.9" />
+          <div v-if="dealer.cardNum">
+            <img src="../assets/back_of_card.png" height="325" width="233.9" />
+          </div>
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
           </div>
