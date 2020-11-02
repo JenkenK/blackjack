@@ -5,6 +5,9 @@
       <div>Deck ID: {{ this.deck_id }}</div>
       <br />
       <button v-on:click="drawCards">Draw Cards</button>
+      <br />
+      <button class = "new-game" @click="resetGame()"
+      :disabled="playerTurn">Deal Again!</button>
     </div>
     <div id="dealer">
       <h2>Dealer</h2>
@@ -114,6 +117,14 @@ export default {
       this.playerTurn = false;
       this.message = "";
       this.player.cardNum = 0;
+      this.dealer.cardNum = 0;
+      this.player.hand = [];
+      this.dealer.hand = [];
+      this.player.cardImg = [];
+      this.dealer.cardImg = [];
+      this.player.cardTotal = 0;
+      this.dealer.cardTotal = 0
+      this.drawCards();
     },
 
     totalHandValue(player) {
