@@ -16,9 +16,7 @@ export default {
   //   props: ["player"],
   data() {
     return {
-      player: {
-        hand: [],
-      },
+      player: null,
     };
   },
   mounted() {

@@ -15,9 +15,7 @@ export default {
   name: "dealer",
   data() {
     return {
-      dealer: {
-        hand: [],
-      },
+      dealer: null,
     };
   },
   mounted() {
