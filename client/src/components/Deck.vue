@@ -18,9 +18,11 @@ export default {
       deck_id: "",
       player: {
         hand: [],
+        cardTotal: 0,
       },
       dealer: {
         hand: [],
+        cardTotal: 0,
       },
     };
   },
