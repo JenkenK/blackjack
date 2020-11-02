@@ -121,6 +121,7 @@ export default {
           cardTotal += parseInt(card.value);
         }
       });
+      this.player.cardTotal = cardTotal;
       return cardTotal;
     },
 
@@ -157,10 +158,10 @@ export default {
         this.message = "Player has BLAAAAACKJAAAACK!";
         this.gameEnd = true;
         this.playerTurn = false;
-        this.writeResult("blackjack");
+        // this.writeResult("blackjack");
       } else if (!this.playerTurn) {
         if (
-          this.dealer.handValue > 21 ||
+          this.dealer.cardTotal > 21 ||
           this.dealer.cardTotal < this.player.cardTotal
         ) {
           this.message = "Player WINS!!!";
@@ -170,7 +171,7 @@ export default {
         } else if (!this.playerTurn) {
           this.message = "Dealer WINS!";
           this.gameEnd = true;
-          this.writeResult("lost");
+          // this.writeResult("lost");
         }
       }
     },
@@ -181,13 +182,11 @@ export default {
 
     dealerTurn() {
       this.playerTurn = false;
-      this.hitMe(this.dealer, 1).then(() => {
-        if (this.dealer.cardTotal > 16) {
-          this.checkWinner();
-        } else {
-          this.dealerTurn();
-        }
-      });
+      if (this.dealer.cardTotal <= 17) {
+        this.hitMe(this.dealer, 1);
+      } else {
+        this.checkWinner();
+      }
     },
 
     writeResult(result) {
