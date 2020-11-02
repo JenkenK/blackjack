@@ -12,8 +12,10 @@
       <div>
         <div>{{ this.dealer.hand }}</div>
         <hr />
-        <div v-for="(card, index) in this.dealer.cardImg" :key="index">
-          <img :src="card" alt="" />
+        <div id="dealer-img">
+          <div v-for="(card, index) in this.dealer.cardImg" :key="index">
+            <img :src="card" alt="" />
+          </div>
         </div>
         <p>Total Score: {{ totalHandValue(dealer) }}</p>
         <p>Number of Cards: {{ this.dealer.cardNum }}</p>
@@ -25,8 +27,10 @@
       <div>
         <div>{{ this.player.hand }}</div>
         <hr />
-        <div v-for="(card, index) in this.player.cardImg" :key="index">
-          <img :src="card" alt="" />
+        <div id="player-img">
+          <div v-for="(card, index) in this.player.cardImg" :key="index">
+            <img :src="card" alt="" />
+          </div>
         </div>
         <br />
         <button v-on:click="playerHit" :disabled="!playerTurn">HIT ME</button>
@@ -81,10 +85,12 @@ export default {
         this.player.hand.push(res.cards[0], res.cards[2]);
         this.player.cardImg.push(res.cards[0].image, res.cards[2].image);
         this.player.cardNum += 2;
+        this.player.cardTotal = this.totalHandValue(this.player);
         //dealer side
         this.dealer.hand.push(res.cards[1], res.cards[3]);
         this.dealer.cardImg.push(res.cards[1].image, res.cards[3].image);
         this.dealer.cardNum += 2;
+        this.dealer.cardTotal = this.totalHandValue(this.dealer);
 
         this.playerTurn = true;
       });
@@ -121,7 +127,6 @@ export default {
           cardTotal += parseInt(card.value);
         }
       });
-      this.player.cardTotal = cardTotal;
       return cardTotal;
     },
 
@@ -137,9 +142,10 @@ export default {
           player.hand.push(card);
           player.cardImg.push(card.image);
           player.cardNum += 1;
+          player.cardTotal = this.totalHandValue(player);
         });
       });
-      player.cardTotal = this.totalHandValue(player);
+      this.player.cardTotal = this.totalHandValue(player);
       if (this.dealer.cardTotal !== 10 && this.dealer.cardTotal !== 11) {
         this.playerTurn = false;
         this.checkWinner();
@@ -182,11 +188,17 @@ export default {
 
     dealerTurn() {
       this.playerTurn = false;
-      if (this.dealer.cardTotal <= 17) {
-        this.hitMe(this.dealer, 1);
-      } else {
-        this.checkWinner();
-      }
+      this.hitMe(this.dealer, 1).then(() => {
+        if (this.dealer.cardTotal < 17) {
+          this.dealerTurn();
+        } else if (this.dealer.cardTotal <= this.player.cardTotal) {
+          this.dealerTurn();
+        } else if (this.dealer.cardTotal === 21) {
+          this.checkWinner();
+        } else {
+          this.checkWinner();
+        }
+      });
     },
 
     writeResult(result) {
@@ -202,5 +214,11 @@ export default {
 #game-table {
   border: 1px solid black;
   margin: 20px;
+}
+
+#dealer-img,
+#player-img {
+  display: flex;
+  justify-content: center;
 }
 </style>
