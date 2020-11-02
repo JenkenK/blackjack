@@ -14,15 +14,13 @@ import CardsAPI from "../api/CardsAPI";
 export default {
   data() {
     return {
-      deck: [],
+      // deck: [],
       deck_id: "",
       player: {
         hand: [],
-        cardImg: [],
       },
       dealer: {
         hand: [],
-        cardImg: [],
       },
     };
   },
@@ -34,11 +32,11 @@ export default {
   methods: {
     drawCards() {
       CardsAPI.draw(this.deck_id, 4).then((res) => {
-        this.player.hand.push(res.cards[0], res.cards[1]);
-        this.player.cardImg.push(res.cards[0].image, res.cards[1].image);
+        // player side
+        this.player.hand.push(res.cards[0], res.cards[2]);
         eventBus.$emit("player", this.player);
-        this.dealer.hand.push(res.cards[2], res.cards[3]);
-        this.dealer.cardImg.push(res.cards[2].image, res.cards[3].image);
+        //dealer side
+        this.dealer.hand.push(res.cards[1], res.cards[3]);
         eventBus.$emit("dealer", this.dealer);
       });
     },

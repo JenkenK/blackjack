@@ -6,8 +6,8 @@
     <hr />
     <div>{{ this.player.cardImg }}</div>
     <hr />
-    <img :src="player.cardImg[0]" alt="" />
-    <img :src="player.cardImg[1]" alt="" />
+    <img :src="player.hand[0].image" alt="" />
+    <img :src="player.hand[1].image" alt="" />
   </div>
 </template>
 
@@ -20,7 +20,6 @@ export default {
     return {
       player: {
         hand: [],
-        cardImg: [],
       },
     };
   },

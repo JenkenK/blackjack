@@ -19,7 +19,6 @@ export default {
     return {
       dealer: {
         hand: [],
-        cardImg: [],
       },
     };
   },
