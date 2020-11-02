@@ -14,6 +14,7 @@
         <hr />
         <!-- <img :src="dealer.cardImg[0]" alt="" /> -->
         <img :src="dealer.cardImg[1]" alt="" />
+        <p>Total Score: {{ totalHandValue(dealer) }}</p>
       </div>
     </div>
     <div id="player">
@@ -24,6 +25,7 @@
         <hr />
         <img :src="player.cardImg[0]" alt="" />
         <img :src="player.cardImg[1]" alt="" />
+        <p>Total Score: {{ totalHandValue(player) }}</p>
       </div>
     </div>
   </div>
@@ -65,8 +67,6 @@ export default {
         this.dealer.cardImg.push(res.cards[1].image, res.cards[3].image);
       });
     },
-  },
-  computed: {
     totalHandValue(player) {
       let cardTotal = 0;
       player.hand.forEach((card) => {
