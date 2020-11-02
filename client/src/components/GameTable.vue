@@ -6,22 +6,31 @@
       <br />
       <button v-on:click="drawCards">Draw Cards</button>
     </div>
-    <p>{{ this.totalHandValue }}</p>
-    <player></player>
-    <dealer></dealer>
-
-    <buttonList></buttonList>
-    <results></results>
+    <div id="dealer">
+      <h2>Dealer</h2>
+      <hr />
+      <div v-if="dealer">
+        <div>{{ this.dealer.hand }}</div>
+        <hr />
+        <!-- <img :src="dealer.hand[0].image" alt="" /> -->
+        <img :src="dealer.hand[1].image" alt="" />
+      </div>
+    </div>
+    <div id="player">
+      <h2>Player</h2>
+      <hr />
+      <div v-if="player">
+        <div>{{ this.player.hand }}</div>
+        <hr />
+        <img :src="player.hand[0].image" alt="" />
+        <img :src="player.hand[1].image" alt="" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { eventBus } from "../main.js";
 import CardsAPI from "../api/CardsAPI";
-import Results from "./Result";
-import Dealer from "./Dealer";
-import Player from "./Player";
-import ButtonList from "./ButtonList";
 
 export default {
   name: "game-table",
@@ -38,19 +47,7 @@ export default {
       },
     };
   },
-  components: {
-    results: Results,
-    dealer: Dealer,
-    player: Player,
-    buttonList: ButtonList,
-  },
   mounted() {
-    // eventBus.$on("player", (data) => {
-    //   this.player = data;
-    // });
-    // eventBus.$on("dealer", (data) => {
-    //   this.dealer = data;
-    // });
     CardsAPI.shuffleNewDeck().then((res) => {
       this.deck_id = res.deck_id;
     });
@@ -60,10 +57,8 @@ export default {
       CardsAPI.draw(this.deck_id, 4).then((res) => {
         // player side
         this.player.hand.push(res.cards[0], res.cards[2]);
-        eventBus.$emit("player", this.player);
         //dealer side
         this.dealer.hand.push(res.cards[1], res.cards[3]);
-        eventBus.$emit("dealer", this.dealer);
       });
     },
   },
