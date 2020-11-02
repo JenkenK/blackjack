@@ -16,6 +16,7 @@
       <div>
         <div>{{ this.dealer.hand }}</div>
         <div id="dealer-img">
+          <img src="../assets/back_of_card.png" height="325" width="233.9" />
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
           </div>
@@ -244,7 +245,7 @@ export default {
   justify-content: center;
 }
 
-#dealer-img > div:first-child {
+#dealer-img > div:nth-child(2) {
   /* visibility: hidden; */
   display: none;
 }
