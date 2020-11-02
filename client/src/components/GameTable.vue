@@ -1,19 +1,18 @@
 <template>
   <div id="game-table">
     <div id="deck">
-      <h2>Deck</h2>
-      <div>Deck ID: {{ this.deck_id }}</div>
       <br />
-      <button v-on:click="drawCards">Draw Cards</button>
+      <button v-on:click="drawCards" class="button">Draw Cards</button>
     </div>
     <div id="dealer">
       <h2>Dealer</h2>
       <hr />
       <div>
-        <div>{{ this.dealer.hand }}</div>
         <hr />
+        <div class="dealer-class">
         <div v-for="(card, index) in this.dealer.cardImg" :key="index">
-          <img :src="card" alt="" />
+          <img :src="card" alt="" class="cards"/>
+        </div>
         </div>
         <p>Total Score: {{ totalHandValue(dealer) }}</p>
         <p>Number of Cards: {{ this.dealer.cardNum }}</p>
@@ -23,14 +22,15 @@
       <h2>Player</h2>
       <hr />
       <div>
-        <div>{{ this.player.hand }}</div>
         <hr />
+        <div class="player-class">
         <div v-for="(card, index) in this.player.cardImg" :key="index">
-          <img :src="card" alt="" />
+          <img :src="card" alt="" class="cards"/>
+        </div>
         </div>
         <br />
-        <button v-on:click="playerHit" :disabled="!playerTurn">HIT ME</button>
-        <button v-on:click="dealerTurn(dealer)" :disabled="!playerTurn">
+        <button v-on:click="playerHit" :disabled="!playerTurn" class="button">HIT ME</button>
+        <button v-on:click="dealerTurn(dealer)" :disabled="!playerTurn" class="button">
           Stick
         </button>
         <p>Total Score: {{ totalHandValue(player) }}</p>
@@ -202,5 +202,47 @@ export default {
 #game-table {
   border: 1px solid black;
   margin: 20px;
+  background-color: rgb(48, 11, 5);
+  color: rgb(175, 201, 26)
+}
+
+.player-class {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.dealer-class {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.cards {
+  margin: 5px;
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 2em;
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.button:hover {
+  outline: none;
+  box-shadow: 5px black;
 }
 </style>
