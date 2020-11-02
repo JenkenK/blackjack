@@ -5,7 +5,6 @@
       <div>Deck ID: {{ this.deck_id }}</div>
       <br />
       <button v-on:click="drawCards">Draw Cards</button>
-      <!-- <button v-on:click="hitMe">HIT ME</button> -->
     </div>
     <div id="dealer">
       <h2>Dealer</h2>
@@ -16,7 +15,7 @@
         <!-- <img :src="dealer.cardImg[0]" alt="" /> -->
         <img :src="dealer.cardImg[1]" alt="" />
         <p>Total Score: {{ totalHandValue(dealer) }}</p>
-        <p>{{ this.dealer.cardNum }}</p>
+        <p>Number of Cards: {{ this.dealer.cardNum }}</p>
       </div>
     </div>
     <div id="player">
@@ -25,10 +24,13 @@
       <div>
         <div>{{ this.player.hand }}</div>
         <hr />
-        <img :src="player.cardImg[0]" alt="" />
-        <img :src="player.cardImg[1]" alt="" />
+        <div v-for="(image, index) in this.player.cardImg" :key="index">
+          <img :src="player.cardImg[image]" alt="" />
+        </div>
+        <br />
+        <button v-on:click="playerHit" :disabled="!playerTurn">HIT ME</button>
         <p>Total Score: {{ totalHandValue(player) }}</p>
-        <p>{{ this.player.cardNum }}</p>
+        <p>Number of Cards: {{ this.player.cardNum }}</p>
       </div>
     </div>
   </div>
@@ -48,6 +50,7 @@ export default {
         cardNum: 0,
         cardImg: [],
         playerTurn: false,
+        hasBlackjack: false,
       },
       dealer: {
         hand: [],
@@ -55,7 +58,11 @@ export default {
         cardTotal: 0,
         cardImg: [],
         dealerTurn: false,
+        hasBlackjack: false,
       },
+      gameHistory: [],
+      gameEnd: false,
+      playerTurn: false,
     };
   },
   mounted() {
@@ -74,8 +81,17 @@ export default {
         this.dealer.hand.push(res.cards[1], res.cards[3]);
         this.dealer.cardImg.push(res.cards[1].image, res.cards[3].image);
         this.dealer.cardNum += 2;
+
+        this.playerTurn = true;
       });
     },
+    newGame() {
+      this.message = "";
+      this.player.hand = [];
+      this.dealer.hand = [];
+      this.playerTurn = true;
+    },
+
     totalHandValue(player) {
       let cardTotal = 0;
       player.hand.forEach((card) => {
@@ -97,6 +113,13 @@ export default {
       });
       return cardTotal;
     },
+
+    playerHit() {
+      return this.hitMe(this.player, 1).then(() => {
+        this.checkWinner();
+      });
+    },
+
     hitMe(player, number) {
       return CardsAPI.draw(this.deck_id, number).then((res) => {
         res.cards.forEach((card) => {
@@ -111,6 +134,44 @@ export default {
       } else {
         this.dealerTurn();
       }
+    },
+
+    checkWinner() {
+      if (this.player.cardTotal > 21) {
+        this.message = "Dealer WINS!";
+        this.gameEnd = true;
+        this.playerTurn = false;
+        this.writeResult("lost");
+      } else if (this.player.hasBlackjack) {
+        this.message = "Player has BLAAAAACKJAAAACK!";
+        this.gameEnd = true;
+        this.playerTurn = false;
+        this.writeResult("blackjack");
+      } else if (!this.playerTurn) {
+        if (
+          this.dealer.handValue > 21 ||
+          this.dealer.cardTotal < this.player.cardTotal
+        ) {
+          this.message = "Player WINS!!!";
+          this.gameEnd = true;
+        } else if (this.dealer.cardTotal === this.player.cardTotal) {
+          this.message = "DRAW! NO WINNER";
+        } else if (!this.playerTurn) {
+          this.message = "Dealer WINS!";
+          this.gameEnd = true;
+          this.writeResult("lost");
+        }
+      }
+    },
+
+    hasBlackjack() {
+      return this.player.cardNum === 2 && this.player.cardTotal === 21;
+    },
+
+    writeResult(result) {
+      this.gameHistory.push({
+        result: result,
+      });
     },
   },
 };
