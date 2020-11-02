@@ -4,8 +4,6 @@
     <hr />
     <div>{{ this.player.hand }}</div>
     <hr />
-    <div>{{ this.player.cardImg }}</div>
-    <hr />
     <img :src="player.hand[0].image" alt="" />
     <img :src="player.hand[1].image" alt="" />
   </div>

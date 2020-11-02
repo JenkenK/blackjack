@@ -4,10 +4,8 @@
     <hr />
     <div>{{ this.dealer.hand }}</div>
     <hr />
-    <div>{{ this.dealer.cardImg }}</div>
-    <hr />
-    <!-- <img :src="dealer.cardImg[0]" alt="" /> -->
-    <img :src="dealer.cardImg[1]" alt="" />
+    <!-- <img :src="dealer.hand[0].image" alt="" /> -->
+    <img :src="dealer.hand[1].image" alt="" />
   </div>
 </template>
 
