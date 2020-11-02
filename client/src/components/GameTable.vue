@@ -41,14 +41,21 @@
         <p>Number of Cards: {{ this.player.cardNum }}</p>
       </div>
     </div>
+    <div class="col-3 sidebar">
+      <message-box v-if="message" :message="message"></message-box>
+    </div>
   </div>
 </template>
 
 <script>
 import CardsAPI from "../api/CardsAPI";
+import MessageBox from "@/components/Messages.vue";
 
 export default {
   name: "game-table",
+  components: {
+    "message-box": MessageBox,
+  },
   data() {
     return {
       deck_id: "",
@@ -71,6 +78,7 @@ export default {
       gameHistory: [],
       gameEnd: false,
       playerTurn: false,
+      message: "",
     };
   },
   mounted() {
@@ -146,11 +154,14 @@ export default {
         });
       });
       this.player.cardTotal = this.totalHandValue(player);
-      if (this.dealer.cardTotal !== 10 && this.dealer.cardTotal !== 11) {
-        this.playerTurn = false;
-        this.checkWinner();
-      } else {
-        this.dealerTurn();
+      if (this.hasBlackjack()) {
+        player.hasBlackjack = true;
+        if (this.dealer.cardTotal !== 10 && this.dealer.cardTotal !== 11) {
+          this.playerTurn = false;
+          this.checkWinner();
+        } else {
+          this.dealerTurn();
+        }
       }
     },
 
@@ -159,7 +170,7 @@ export default {
         this.message = "Dealer WINS!";
         this.gameEnd = true;
         this.playerTurn = false;
-        this.writeResult("lost");
+        // this.writeResult("lost");
       } else if (this.player.hasBlackjack) {
         this.message = "Player has BLAAAAACKJAAAACK!";
         this.gameEnd = true;
@@ -189,7 +200,7 @@ export default {
     dealerTurn() {
       this.playerTurn = false;
       this.hitMe(this.dealer, 1).then(() => {
-        if (this.dealer.cardTotal < 17) {
+        if (this.dealer.cardTotal <= 17) {
           this.dealerTurn();
         } else if (this.dealer.cardTotal <= this.player.cardTotal) {
           this.dealerTurn();
