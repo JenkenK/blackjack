@@ -2,7 +2,9 @@
   <div id="game-table">
     <div id="deck">
       <br />
-      <button v-on:click="drawCards" class="button">Draw Cards</button>
+      <button v-on:click="drawCards" v-if="firstDraw" class="button">
+        Draw Cards
+      </button>
       <br />
       <button class="new-game" @click="resetGame()" :disabled="playerTurn">
         Deal Again!
@@ -89,9 +91,10 @@ export default {
         hasBlackjack: false,
       },
       gameHistory: [],
-      gameEnd: false,
+      gameEnd: true,
       playerTurn: false,
       message: "",
+      firstDraw: true,
     };
   },
   mounted() {
@@ -102,6 +105,7 @@ export default {
   methods: {
     drawCards() {
       CardsAPI.draw(this.deck_id, 4).then((res) => {
+        this.firstDraw = false;
         // player side
         this.player.hand.push(res.cards[0], res.cards[2]);
         this.player.cardImg.push(res.cards[0].image, res.cards[2].image);
