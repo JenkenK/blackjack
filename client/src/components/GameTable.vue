@@ -7,6 +7,7 @@
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
           </div>
+          <p v-if="!playerTurn" id="total-hand">{{ totalHandValue(dealer) }}</p>
         </div>
       </div>
     </div>
