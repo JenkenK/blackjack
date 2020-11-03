@@ -211,9 +211,10 @@ export default {
     dealerTurn() {
       this.playerTurn = false;
       this.hitMe(this.dealer, 1).then(() => {
-        if (this.dealer.cardTotal <= 17) {
-          this.dealerTurn();
-        } else if (this.dealer.cardTotal <= this.player.cardTotal) {
+        if (
+          this.dealer.cardTotal < 17 ||
+          this.dealer.cardTotal <= this.player.cardTotal
+        ) {
           this.dealerTurn();
         } else if (this.dealer.cardTotal === 21) {
           this.checkWinner();
