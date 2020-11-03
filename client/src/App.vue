@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="css" scoped>
   @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
 
 #app {
@@ -32,5 +32,6 @@ export default {
   padding: 0;
   text-align: center;
   font-family: 'Abril Fatface', cursive;
+  background-size: cover;
 }
 </style>

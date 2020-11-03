@@ -1,17 +1,9 @@
 <template>
     <aside>
-        <button v-on:click="drawCards" class="button">
-        Draw draw
-        </button>
-        <button class="new-game" @click="resetGame()" :disabled="playerTurn">
-        Deal Again!
-        </button>
-        <button v-on:click="playerHit" :disabled="!playerTurn" class="button">
-        HIT ME
-        </button>
-        <button v-on:click="dealerTurn(dealer)" :disabled="!playerTurn" class="button">
-        Stick
-        </button>
+        <button v-on:click="drawCards" class="button">Draw Cards</button>
+        <button class="new-game" @click="resetGame()" :disabled="playerTurn">Deal Again!</button>
+        <button v-on:click="playerHit" :disabled="!playerTurn" class="button">Hit Me</button>
+        <button v-on:click="dealerTurn(dealer)" :disabled="!playerTurn" class="button">Stick</button>
     </aside>
 </template>
 

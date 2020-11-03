@@ -6,12 +6,12 @@
 
 <script>
 export default {
-    name: "app-eader"
+    name: "app-header"
 }
 
 </script>
 
-<style>
+<style lang="css" scoped>
 div {
     font-family: 'Abril Fatface', cursive;
     font-size: 20px;

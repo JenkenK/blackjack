@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main class="page-footer">
         <h2>FOOTER YO!</h2>
     </main>
 </template>
@@ -11,10 +11,10 @@ export default {
 }
 </script>
 
-<style>
-div {
+<style lang="css" scoped>
+.page-footer {
     font-family: 'Abril Fatface', cursive;
-    font-size: 20px;
+    font-size: 10px;
 }
 
 </style>
