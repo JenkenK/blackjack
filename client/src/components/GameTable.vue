@@ -1,60 +1,31 @@
 <template>
   <div id="game-table">
     <div id="deck">
-      <br />
-      <button v-on:click="drawCards" class="button">Draw Cards</button>
-      <br />
-      <button class="new-game" @click="resetGame()" :disabled="playerTurn">
-        Deal Again!
-      </button>
-      <hr />
     </div>
     <div id="dealer">
       <h2>Dealer</h2>
       <div>
-        <div>{{ this.dealer.hand }}</div>
-        <div class="dealer-class">
-          <div id="dealer-img">
+        <div class="dealer-class" id="dealer-img">
             <div v-for="(card, index) in this.dealer.cardImg" :key="index">
               <img :src="card" alt="" />
             </div>
-          </div>
         </div>
         <hr />
-        <p>Total Score: {{ totalHandValue(dealer) }}</p>
-        <p>Number of Cards: {{ this.dealer.cardNum }}</p>
       </div>
     </div>
     <div id="player">
       <hr />
       <h2>Player</h2>
       <div>
-        <div>{{ this.player.hand }}</div>
-        <div class="player-class">
-          <div id="player-img">
+        <div class="player-class" id="player-img">
             <div v-for="(card, index) in this.player.cardImg" :key="index">
               <img :src="card" alt="" />
             </div>
-          </div>
+          <p id="total-hand">{{ totalHandValue(player) }}</p>
         </div>
-        <hr />
-        <br />
-        <button v-on:click="playerHit" :disabled="!playerTurn" class="button">
-          HIT ME
-        </button>
-        <button
-          v-on:click="dealerTurn(dealer)"
-          :disabled="!playerTurn"
-          class="button"
-        >
-          Stick
-        </button>
-        <p>Total Score: {{ totalHandValue(player) }}</p>
-        <p>Number of Cards: {{ this.player.cardNum }}</p>
       </div>
     </div>
     <div class="col-3 sidebar">
-      <hr />
       <message-box v-if="message" :message="message"></message-box>
     </div>
   </div>
@@ -245,9 +216,10 @@ export default {
 
 <style scoped>
 #game-table {
+  font-family: 'Abril Fatface', cursive;
   border: 1px solid black;
   margin: 20px;
-  background-color: rgb(48, 11, 5);
+  background-color: rgb(31, 16, 16);
   color: rgb(175, 201, 26);
 }
 
@@ -267,7 +239,7 @@ export default {
   margin: 5px;
 }
 
-.button {
+.new-game {
   background-color: #4caf50;
   border: none;
   color: white;
@@ -281,15 +253,6 @@ export default {
   border-radius: 2em;
 }
 
-.button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-.button:hover {
-  outline: none;
-  box-shadow: 5px black;
-}
 
 #dealer-img,
 #player-img {
@@ -300,5 +263,18 @@ export default {
 #dealer-img > div:first-child {
   /* visibility: hidden; */
   display: none;
+}
+
+#total-hand {
+  /* position: absolute;
+  top: -1.5rem;
+  right: -1.5rem; */
+  border-radius: 50%;
+  background: #eff0fc;
+  width: 3rem;
+  height: 3rem;
+  color: red;
+  text-align: center;
+  line-height: 3em;
 }
 </style>
