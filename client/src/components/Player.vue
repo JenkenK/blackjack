@@ -39,7 +39,7 @@ h2 {
 }
 
 img {
-  width: 300px;
+  width: 250px;
 }
 
 #player-img,

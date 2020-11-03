@@ -46,7 +46,7 @@ h2 {
 }
 
 img {
-  width: 300px;
+  width: 250px;
 }
 
 #dealer-img > div:nth-child(2) {
