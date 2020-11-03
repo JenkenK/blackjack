@@ -192,7 +192,10 @@ export default {
         this.gameEnd = true;
         this.playerTurn = false;
       } else if (!this.playerTurn) {
-        if (this.dealer.hasBlackjack === true) {
+        if (this.dealer.cardTotal === this.player.cardTotal) {
+          this.message = "DRAW! No winner";
+          this.gameEnd = true;
+        } else if (this.dealer.hasBlackjack === true) {
           this.message = "Dealer has BLACKJACK.  YOU LOSE!!";
           this.gameEnd = true;
           this.playerTurn = false;
@@ -204,6 +207,7 @@ export default {
           this.gameEnd = true;
         } else if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! NO WINNER";
+          this.gameEnd = true;
         } else if (!this.playerTurn) {
           this.message = "Dealer WINS!";
           this.gameEnd = true;
