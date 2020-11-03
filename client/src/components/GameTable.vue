@@ -1,25 +1,10 @@
 <template>
   <div id="game-table">
-    <div id="dealer">
-      <div class="details">
-        <h2>Dealer</h2>
-        <p v-if="!playerTurn" id="total-hand">{{ totalHandValue(dealer) }}</p>
-      </div>
-      <div>
-        <div id="dealer-img">
-          <div v-if="playerTurn">
-            <img src="../assets/back_of_card.png" alt="">
-          </div>
-          <div v-else>
-            <img :src="this.dealer.cardImg[0]" alt="" />
-          </div>
-          <div v-for="(card, index) in this.dealer.cardImg" :key="index">
-            <img :src="card" alt="" />
-          </div>
-
-        </div>
-      </div>
-    </div>
+    <dealer
+      :dealer="this.dealer"
+      :playerTurn="this.playerTurn"
+      :totalHandValue="this.totalHandValue"
+    ></dealer>
     <div id="player">
       <div class="details">
         <h2>Player</h2>
@@ -32,9 +17,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-3 sidebar">
-      <message-box v-if="message" :message="message"></message-box>
     </div>
     <aside>
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
@@ -54,17 +36,20 @@
         Stick
       </button>
     </aside>
+    <message-box v-if="message" :message="message"></message-box>
   </div>
 </template>
 
 <script>
-import CardsAPI from "../api/CardsAPI";
-import MessageBox from "@/components/Messages.vue";
+import CardsAPI from "../api/CardsAPI.js";
+import Message from "@/components/Messages.vue";
+import Dealer from "@/components/Dealer.vue";
 
 export default {
   name: "game-table",
   components: {
-    "message-box": MessageBox,
+    "message-box": Message,
+    dealer: Dealer,
   },
   data() {
     return {
@@ -152,7 +137,7 @@ export default {
         } else if (card.value === "ACE") {
           if (cardTotal < 11) {
             cardTotal += 11;
-          } else if (cardTotal > 11){
+          } else if (cardTotal > 11) {
             cardTotal += 1;
           }
         } else {
@@ -164,12 +149,12 @@ export default {
 
     playerHit() {
       return this.hitMe(this.player, 1).then(() => {
-        if (this.player.cardTotal === 21){
-          this.playerTurn = false
+        if (this.player.cardTotal === 21) {
+          this.playerTurn = false;
           this.dealerTurn();
-        }else {
-        this.checkWinner()
-        };
+        } else {
+          this.checkWinner();
+        }
       });
     },
 
@@ -300,18 +285,24 @@ export default {
 
 <style lang="css" scoped>
 #game-table {
-  font-family: "Abril Fatface", cursive;
-  border: 1px solid black;
-  background-color: rgb(31, 16, 16);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: #00430d;
   color: rgb(175, 201, 26);
+  height: 80vh;
+}
+
+h2 {
+  font-weight: 300;
+  font-size: 36px;
 }
 
 .cards {
-  margin: 5px;
+  margin: 20px;
 }
 
 #dealer-img,
-#player-img, 
+#player-img,
 .details {
   display: flex;
   justify-content: center;
@@ -319,13 +310,8 @@ export default {
   align-items: baseline;
 }
 
-#dealer-img > div:nth-child(2) {
-  display: none;
-
-}
-
 img {
-  width: 100px;
+  width: 200px;
 }
 #total-hand {
   /* position: absolute;
@@ -346,7 +332,7 @@ img {
 .button {
   background-color: #4caf50;
   border: none;
-  color: brown;
+  color: black;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -359,7 +345,9 @@ img {
 
 .button:hover {
   outline: none;
-  box-shadow: 5px black;
+  box-shadow: 2px 2px 10px black;
+  background-color: #800000;
+  color: antiquewhite;
 }
 
 .button:focus {

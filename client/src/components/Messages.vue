@@ -1,12 +1,12 @@
 <template>
-  <div class="message-box alert">
+  <div id="message">
     {{ message }}
   </div>
 </template>
 
 <script>
 export default {
-  name: "MessageBox",
+  name: "message",
   props: {
     message: String,
   },

@@ -19,19 +19,19 @@ export default {
     "game-table": GameTable,
     "app-header": Header,
     "app-footer": Footer,
-    "button-field": ButtonField
+    "button-field": ButtonField,
   },
 };
 </script>
 
 <style lang="css" scoped>
-  @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
 
 #app {
   margin: 0;
   padding: 0;
   text-align: center;
-  font-family: 'Abril Fatface', cursive;
+  font-family: "Abril Fatface", cursive;
   background-size: cover;
 }
 </style>

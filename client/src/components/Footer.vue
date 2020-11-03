@@ -1,20 +1,23 @@
 <template>
-    <main class="page-footer">
-        <h2>FOOTER YO!</h2>
-    </main>
+  <section id="footer">
+    <h2>FOOTER YO!</h2>
+  </section>
 </template>
 
 <script>
 export default {
-    name: "app-footer"
-
-}
+  name: "app-footer",
+};
 </script>
 
 <style lang="css" scoped>
-.page-footer {
-    font-family: 'Abril Fatface', cursive;
-    font-size: 10px;
+#footer {
+  font-family: "Abril Fatface", cursive;
+  margin: 0;
+  padding: 0;
 }
 
+h2 {
+  font-size: 26px;
+}
 </style>
