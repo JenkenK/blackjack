@@ -4,6 +4,9 @@
       <h2>Dealer</h2>
       <div>
         <div id="dealer-img">
+          <div v-if="playerTurn">
+            <img src="../assets/back_of_card.png" alt="">
+          </div>
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
           </div>
@@ -301,9 +304,9 @@ export default {
   flex-wrap: nowrap;
 }
 
-#dealer-img > div:first-child {
-  /* visibility: hidden; */
+#dealer-img > div:nth-child(2) {
   display: none;
+
 }
 
 img {
