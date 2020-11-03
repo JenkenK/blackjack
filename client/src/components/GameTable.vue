@@ -62,6 +62,7 @@ export default {
         cardTotal: 0,
         cardNum: 0,
         cardImg: [],
+        aces: 0,
         hasBlackjack: false,
       },
       dealer: {
@@ -69,6 +70,7 @@ export default {
         cardNum: 0,
         cardTotal: 0,
         cardImg: [],
+        aces: 0,
         dealerTurn: false,
         hasBlackjack: false,
       },
@@ -110,6 +112,7 @@ export default {
       this.player.hand = [];
       this.dealer.hand = [];
       this.playerTurn = true;
+      this.player.aces = 0
     },
     resetGame() {
       this.gameEnd = false;
@@ -125,6 +128,7 @@ export default {
       this.dealer.cardTotal = 0;
       this.player.hasBlackjack = false;
       this.dealer.hasBlackjack = false;
+      this.dealer.aces = 0;
       this.drawCards();
     },
 
@@ -140,8 +144,12 @@ export default {
         } else if (card.value === "ACE") {
           if (cardTotal < 11) {
             cardTotal += 11;
-          } else if (cardTotal > 11){
-            cardTotal += 1;
+          while (player.aces > 0) {
+            if (cardTotal > 21 && "ACE" in player.hand) {
+              cardTotal -= 10;
+              player.aces -= 1;
+            }
+          }
           }
         } else {
           cardTotal += parseInt(card.value);
@@ -167,17 +175,20 @@ export default {
           player.hand.push(card);
           player.cardImg.push(card.image);
           player.cardNum += 1;
+          if (card.value === "ACE") {
+            player.aces += 1;
+          }
           player.cardTotal = this.totalHandValue(player);
         });
       });
-      this.player.cardTotal = this.totalHandValue(player);
-      if (this.hasBlackjack()) {
-        player.hasBlackjack = true;
-        if (this.dealer.cardTotal !== 10 && this.dealer.cardTotal !== 11) {
-          this.playerTurn = false;
-          this.checkWinner();
-        } else {
-          this.dealerTurn();
+      // this.player.cardTotal = this.totalHandValue(player);
+      // if (this.hasBlackjack()) {
+      //   player.hasBlackjack = true;
+      //   if (this.dealer.cardTotal !== 10 && this.dealer.cardTotal !== 11) {
+      //     this.playerTurn = false;
+      //     this.checkWinner();
+      //   } else {
+      //     this.dealerTurn();
         }
       }
     },
