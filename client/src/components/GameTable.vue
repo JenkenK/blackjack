@@ -134,7 +134,7 @@ export default {
 
     totalHandValue(player) {
       let cardTotal = 0;
-      player.hand.forEach((card) => {
+      player.hand.forEach(card => {
         if (
           card.value === "KING" ||
           card.value === "QUEEN" ||
@@ -142,14 +142,10 @@ export default {
         ) {
           cardTotal += 10;
         } else if (card.value === "ACE") {
-          if (cardTotal < 11) {
+          if (cardTotal < 11 && player.aces <= 1) {
             cardTotal += 11;
-          while (player.aces > 0) {
-            if (cardTotal > 21 && "ACE" in player.hand) {
-              cardTotal -= 10;
-              player.aces -= 1;
-            }
-          }
+          } else if (cardTotal > 11 && player.aces > 1) {
+            cardTotal += 1;
           }
         } else {
           cardTotal += parseInt(card.value);
@@ -189,9 +185,7 @@ export default {
       //     this.checkWinner();
       //   } else {
       //     this.dealerTurn();
-        }
-      }
-    },
+        },
 
     checkWinner() {
       if (this.player.cardTotal > 21) {
