@@ -152,7 +152,7 @@ export default {
         } else if (card.value === "ACE") {
           if (cardTotal < 11) {
             cardTotal += 11;
-          } else {
+          } else if (cardTotal > 11){
             cardTotal += 1;
           }
         } else {
@@ -164,7 +164,12 @@ export default {
 
     playerHit() {
       return this.hitMe(this.player, 1).then(() => {
-        this.checkWinner();
+        if (this.player.cardTotal === 21){
+          this.playerTurn = false
+          this.dealerTurn();
+        }else {
+        this.checkWinner()
+        };
       });
     },
 
