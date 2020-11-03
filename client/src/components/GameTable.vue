@@ -152,7 +152,12 @@ export default {
 
     playerHit() {
       return this.hitMe(this.player, 1).then(() => {
-        this.checkWinner();
+        if (this.player.cardTotal === 21){
+          this.playerTurn = false
+          this.dealerTurn();
+        }else {
+        this.checkWinner()
+        };
       });
     },
 
