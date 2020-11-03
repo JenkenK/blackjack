@@ -25,12 +25,12 @@ export default {
 </script>
 
 <style>
+  @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+
 #app {
   margin: 0;
   padding: 0;
   text-align: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  
+  font-family: 'Abril Fatface', cursive;
 }
 </style>

@@ -12,5 +12,9 @@ export default {
 </script>
 
 <style>
+div {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 20px;
+}
 
 </style>
