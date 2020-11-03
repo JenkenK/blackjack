@@ -41,6 +41,8 @@ export default {
 h2 {
   font-weight: 300;
   font-size: 36px;
+  padding: 5px;
+  margin: 10px;
 }
 
 img {
@@ -56,7 +58,7 @@ img {
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
-  align-items: baseline;
+  align-items: center;
 }
 
 #total-hand {

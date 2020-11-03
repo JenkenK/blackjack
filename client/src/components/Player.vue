@@ -34,6 +34,8 @@ export default {
 h2 {
   font-weight: 300;
   font-size: 36px;
+  padding: 5px;
+  margin: 10px;
 }
 
 img {
@@ -45,13 +47,10 @@ img {
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
-  align-items: baseline;
+  align-items: center;
 }
 
 #total-hand {
-  /* position: absolute;
-  top: -1.5rem;
-  right: -1.5rem; */
   border-radius: 50%;
   background: #eff0fc;
   width: 2rem;
@@ -60,7 +59,7 @@ img {
   color: red;
   text-align: center;
   line-height: 2em;
-  margin: 5px;
+  margin: 5;
   position: static;
 }
 </style>
