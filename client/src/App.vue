@@ -33,5 +33,6 @@ export default {
   text-align: center;
   font-family: 'Abril Fatface', cursive;
   background-size: cover;
+  background: rgb(211, 123, 123);
 }
 </style>

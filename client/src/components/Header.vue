@@ -1,7 +1,9 @@
 <template>
 <div>
     <h1>BLACKJACK</h1>
+        
 </div>
+
 </template>
 
 <script>

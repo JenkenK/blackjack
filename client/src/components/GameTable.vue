@@ -36,7 +36,7 @@
     <div class="col-3 sidebar">
       <message-box v-if="message" :message="message"></message-box>
     </div>
-    <aside>
+    <aside id="aside">
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
         Draw Cards
       </button>
@@ -209,19 +209,19 @@ export default {
         this.playerTurn = false;
       } else if (!this.playerTurn) {
         if (this.dealer.hasBlackjack === true) {
-          this.message = "Dealer has BLACKJACK.  YOU LOSE!!";
+          this.message = "Dealer has BLACKJACK. YOU LOSE!!";
           this.gameEnd = true;
           this.playerTurn = false;
         } else if (
           this.dealer.cardTotal > 21 ||
           this.dealer.cardTotal < this.player.cardTotal
         ) {
-          this.message = "Player WINS!!!";
+          this.message = "PLAYER WINS!!!";
           this.gameEnd = true;
         } else if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! NO WINNER";
         } else if (!this.playerTurn) {
-          this.message = "Dealer WINS!";
+          this.message = "DEALER WINS!";
           this.gameEnd = true;
           // this.writeResult("lost");
         }
@@ -294,11 +294,17 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
 #game-table {
   font-family: "Abril Fatface", cursive;
   border: 1px solid black;
   background-color: rgb(31, 16, 16);
   color: rgb(175, 201, 26);
+}
+
+#aside {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .cards {
