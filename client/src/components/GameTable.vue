@@ -1,23 +1,35 @@
 <template>
   <div id="game-table">
     <div id="dealer">
-      <h2>Dealer</h2>
+      <div class="details">
+        <h2>Dealer</h2>
+        <p v-if="!playerTurn" id="total-hand">{{ totalHandValue(dealer) }}</p>
+      </div>
       <div>
         <div id="dealer-img">
+          <div v-if="playerTurn">
+            <img src="../assets/back_of_card.png" alt="">
+          </div>
+          <div v-else>
+            <img :src="this.dealer.cardImg[0]" alt="" />
+          </div>
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
           </div>
+
         </div>
       </div>
     </div>
     <div id="player">
-      <h2>Player</h2>
+      <div class="details">
+        <h2>Player</h2>
+        <p id="total-hand">{{ totalHandValue(player) }}</p>
+      </div>
       <div>
         <div id="player-img">
           <div v-for="(card, index) in this.player.cardImg" :key="index">
             <img :src="card" alt="" />
           </div>
-          <p id="total-hand">{{ totalHandValue(player) }}</p>
         </div>
       </div>
     </div>
@@ -294,15 +306,17 @@ export default {
 }
 
 #dealer-img,
-#player-img {
+#player-img, 
+.details {
   display: flex;
   justify-content: center;
   flex-wrap: nowrap;
+  align-items: baseline;
 }
 
-#dealer-img > div:first-child {
-  /* visibility: hidden; */
+#dealer-img > div:nth-child(2) {
   display: none;
+
 }
 
 img {
