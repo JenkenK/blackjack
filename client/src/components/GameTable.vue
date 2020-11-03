@@ -1,23 +1,12 @@
 <template>
   <div id="game-table">
-    <div id="deck">
-      <br />
-      <button v-on:click="drawCards" v-if="firstDraw" class="button">
-        Draw Cards
-      </button>
-      <br />
-      <button class="new-game" @click="resetGame()" :disabled="playerTurn">
-        Deal Again!
-      </button>
-      <hr />
-    </div>
     <div id="dealer">
       <h2>Dealer</h2>
       <div>
         <div id="dealer-img">
-            <div v-for="(card, index) in this.dealer.cardImg" :key="index">
-              <img :src="card" alt="" />
-            </div>
+          <div v-for="(card, index) in this.dealer.cardImg" :key="index">
+            <img :src="card" alt="" />
+          </div>
         </div>
       </div>
     </div>
@@ -25,9 +14,9 @@
       <h2>Player</h2>
       <div>
         <div id="player-img">
-            <div v-for="(card, index) in this.player.cardImg" :key="index">
-              <img :src="card" alt="" />
-            </div>
+          <div v-for="(card, index) in this.player.cardImg" :key="index">
+            <img :src="card" alt="" />
+          </div>
           <p id="total-hand">{{ totalHandValue(player) }}</p>
         </div>
       </div>
@@ -35,11 +24,23 @@
     <div class="col-3 sidebar">
       <message-box v-if="message" :message="message"></message-box>
     </div>
-        <aside>
-        <button v-on:click="drawCards" class="button">Draw Cards</button>
-        <button v-on:click="resetGame()" :disabled="playerTurn" class="button">Deal Again!</button>
-        <button v-on:click="playerHit" :disabled="!playerTurn" class="button">Hit Me</button>
-        <button v-on:click="dealerTurn(dealer)" :disabled="!playerTurn" class="button">Stick</button>
+    <aside>
+      <button v-on:click="drawCards" v-if="firstDraw" class="button">
+        Draw Cards
+      </button>
+      <button v-on:click="resetGame()" :disabled="playerTurn" class="button">
+        Deal Again!
+      </button>
+      <button v-on:click="playerHit" :disabled="!playerTurn" class="button">
+        Hit Me
+      </button>
+      <button
+        v-on:click="dealerTurn(dealer)"
+        :disabled="!playerTurn"
+        class="button"
+      >
+        Stick
+      </button>
     </aside>
   </div>
 </template>
@@ -198,7 +199,7 @@ export default {
         if (this.dealer.hasBlackjack === true) {
           this.message = "Dealer has BLACKJACK.  YOU LOSE!!";
           this.gameEnd = true;
-          this.playerTurn = false; 
+          this.playerTurn = false;
         } else if (
           this.dealer.cardTotal > 21 ||
           this.dealer.cardTotal < this.player.cardTotal
@@ -239,32 +240,36 @@ export default {
         this.checkWinner();
       }
     },
-   
 
     dealerTurn() {
       this.playerTurn = false;
       this.hasBlackjack();
-      if (this.dealer.hasBlackjack === true){
-         this.checkWinner() 
-      }
-      else 
-      this.hitMe(this.dealer, 1).then(() => {
-        if (
-          this.dealer.cardTotal < 17
-          // this.dealer.cardTotal <= this.player.cardTotal
-        ) {
-          this.dealerTurn();
-          this.checkWinner();
-        } else if (this.dealer.cardTotal === 21) {
-          this.checkWinner();
-        } else if (this.dealer.cardTotal > 17 && this.dealer.cardTotal === this.player.cardTotal) {
-          this.checkWinner();
-        } else if (this.dealer.cardTotal < 21 && this.dealer.cardTotal > this.player.cardTotal) {
-          this.checkWinner();
-        } else {
-          this.checkWinner();
-        }
-      });
+      if (this.dealer.hasBlackjack === true) {
+        this.checkWinner();
+      } else
+        this.hitMe(this.dealer, 1).then(() => {
+          if (
+            this.dealer.cardTotal < 17
+            // this.dealer.cardTotal <= this.player.cardTotal
+          ) {
+            this.dealerTurn();
+            this.checkWinner();
+          } else if (this.dealer.cardTotal === 21) {
+            this.checkWinner();
+          } else if (
+            this.dealer.cardTotal > 17 &&
+            this.dealer.cardTotal === this.player.cardTotal
+          ) {
+            this.checkWinner();
+          } else if (
+            this.dealer.cardTotal < 21 &&
+            this.dealer.cardTotal > this.player.cardTotal
+          ) {
+            this.checkWinner();
+          } else {
+            this.checkWinner();
+          }
+        });
     },
 
     writeResult(result) {
@@ -278,7 +283,7 @@ export default {
 
 <style lang="css" scoped>
 #game-table {
-  font-family: 'Abril Fatface', cursive;
+  font-family: "Abril Fatface", cursive;
   border: 1px solid black;
   background-color: rgb(31, 16, 16);
   color: rgb(175, 201, 26);
@@ -302,7 +307,6 @@ export default {
 
 img {
   width: 100px;
-  
 }
 #total-hand {
   /* position: absolute;
@@ -335,12 +339,12 @@ img {
 }
 
 .button:hover {
-    outline: none;
-    box-shadow: 5px black;
+  outline: none;
+  box-shadow: 5px black;
 }
 
 .button:focus {
-    outline: none;
-    box-shadow: none;
+  outline: none;
+  box-shadow: none;
 }
 </style>
