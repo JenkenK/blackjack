@@ -140,7 +140,7 @@ export default {
         } else if (card.value === "ACE") {
           if (cardTotal < 11) {
             cardTotal += 11;
-          } else if (cardTotal > 12){
+          } else if (cardTotal > 11){
             cardTotal += 1;
           }
         } else {
