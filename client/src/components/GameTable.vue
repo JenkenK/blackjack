@@ -5,19 +5,11 @@
       :playerTurn="this.playerTurn"
       :totalHandValue="this.totalHandValue"
     ></dealer>
-    <div id="player">
-      <div class="details">
-        <h2>Player</h2>
-        <p id="total-hand">{{ totalHandValue(player) }}</p>
-      </div>
-      <div>
-        <div id="player-img">
-          <div v-for="(card, index) in this.player.cardImg" :key="index">
-            <img :src="card" alt="" />
-          </div>
-        </div>
-      </div>
-    </div>
+    <player
+      :player="this.player"
+      :playerTurn="this.playerTurn"
+      :totalHandValue="this.totalHandValue"
+    ></player>
     <aside>
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
         Draw Cards
@@ -44,12 +36,14 @@
 import CardsAPI from "../api/CardsAPI.js";
 import Message from "@/components/Messages.vue";
 import Dealer from "@/components/Dealer.vue";
+import Player from "@/components/Player.vue";
 
 export default {
   name: "game-table",
   components: {
     "message-box": Message,
     dealer: Dealer,
+    player: Player,
   },
   data() {
     return {
