@@ -20,5 +20,6 @@ header {
 h1 {
   font-size: 46px;
   letter-spacing: 6px;
+  text-decoration: underline;
 }
 </style>

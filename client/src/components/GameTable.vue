@@ -10,7 +10,7 @@
       :playerTurn="this.playerTurn"
       :totalHandValue="this.totalHandValue"
     ></player>
-    <aside>
+    <section>
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
         Draw Cards
       </button>
@@ -27,7 +27,7 @@
       >
         Stick
       </button>
-    </aside>
+    </section>
     <message-box v-if="message" :message="message"></message-box>
   </div>
 </template>
@@ -283,44 +283,12 @@ export default {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-color: #00430d;
   color: rgb(175, 201, 26);
-  height: 80vh;
+  height: 100vh;
 }
 
 h2 {
   font-weight: 300;
   font-size: 36px;
-}
-
-.cards {
-  margin: 20px;
-}
-
-#dealer-img,
-#player-img,
-.details {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  align-items: baseline;
-}
-
-img {
-  width: 200px;
-}
-#total-hand {
-  /* position: absolute;
-  top: -1.5rem;
-  right: -1.5rem; */
-  border-radius: 50%;
-  background: #eff0fc;
-  width: 2rem;
-  height: 2rem;
-  font-size: 1rem;
-  color: red;
-  text-align: center;
-  line-height: 2em;
-  margin: 5px;
-  position: static;
 }
 
 .button {
@@ -332,14 +300,14 @@ img {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 10px 10px 10px;
   cursor: pointer;
   border-radius: 2em;
 }
 
 .button:hover {
   outline: none;
-  box-shadow: 2px 2px 10px black;
+  box-shadow: 3px 3px 5px rgb(44, 44, 44);
   background-color: #800000;
   color: antiquewhite;
 }
