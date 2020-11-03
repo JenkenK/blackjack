@@ -1,64 +1,47 @@
 <template>
   <div id="game-table">
-    <div id="deck">
-      <br />
-      <button v-on:click="drawCards" v-if="firstDraw" class="button">
-        Draw Cards
-      </button>
-      <br />
-      <button class="new-game" @click="resetGame()" :disabled="playerTurn">
-        Deal Again!
-      </button>
-      <hr />
-    </div>
     <div id="dealer">
       <h2>Dealer</h2>
       <div>
-        <div>{{ this.dealer.hand }}</div>
-        <div class="dealer-class">
-          <div id="dealer-img">
-            <div v-for="(card, index) in this.dealer.cardImg" :key="index">
-              <img :src="card" alt="" />
-            </div>
+        <div id="dealer-img">
+          <div v-for="(card, index) in this.dealer.cardImg" :key="index">
+            <img :src="card" alt="" />
           </div>
         </div>
-        <hr />
-        <p>Total Score: {{ totalHandValue(dealer) }}</p>
-        <p>Number of Cards: {{ this.dealer.cardNum }}</p>
       </div>
     </div>
     <div id="player">
-      <hr />
       <h2>Player</h2>
       <div>
-        <div>{{ this.player.hand }}</div>
-        <div class="player-class">
-          <div id="player-img">
-            <div v-for="(card, index) in this.player.cardImg" :key="index">
-              <img :src="card" alt="" />
-            </div>
+        <div id="player-img">
+          <div v-for="(card, index) in this.player.cardImg" :key="index">
+            <img :src="card" alt="" />
           </div>
+          <p id="total-hand">{{ totalHandValue(player) }}</p>
         </div>
-        <hr />
-        <br />
-        <button v-on:click="playerHit" :disabled="!playerTurn" class="button">
-          HIT ME
-        </button>
-        <button
-          v-on:click="dealerTurn(dealer)"
-          :disabled="!playerTurn"
-          class="button"
-        >
-          Stick
-        </button>
-        <p>Total Score: {{ totalHandValue(player) }}</p>
-        <p>Number of Cards: {{ this.player.cardNum }}</p>
       </div>
     </div>
     <div class="col-3 sidebar">
-      <hr />
       <message-box v-if="message" :message="message"></message-box>
     </div>
+    <aside>
+      <button v-on:click="drawCards" v-if="firstDraw" class="button">
+        Draw Cards
+      </button>
+      <button v-on:click="resetGame()" :disabled="playerTurn" class="button">
+        Deal Again!
+      </button>
+      <button v-on:click="playerHit" :disabled="!playerTurn" class="button">
+        Hit Me
+      </button>
+      <button
+        v-on:click="dealerTurn(dealer)"
+        :disabled="!playerTurn"
+        class="button"
+      >
+        Stick
+      </button>
+    </aside>
   </div>
 </template>
 
@@ -79,7 +62,6 @@ export default {
         cardTotal: 0,
         cardNum: 0,
         cardImg: [],
-        playerTurn: false,
         hasBlackjack: false,
       },
       dealer: {
@@ -106,6 +88,7 @@ export default {
     drawCards() {
       CardsAPI.draw(this.deck_id, 4).then((res) => {
         this.firstDraw = false;
+
         // player side
         this.player.hand.push(res.cards[0], res.cards[2]);
         this.player.cardImg.push(res.cards[0].image, res.cards[2].image);
@@ -118,6 +101,8 @@ export default {
         this.dealer.cardTotal = this.totalHandValue(this.dealer);
 
         this.playerTurn = true;
+        this.hasBlackjack();
+        this.checkWinner();
       });
     },
     newGame() {
@@ -138,6 +123,8 @@ export default {
       this.dealer.cardImg = [];
       this.player.cardTotal = 0;
       this.dealer.cardTotal = 0;
+      this.player.hasBlackjack = false;
+      this.dealer.hasBlackjack = false;
       this.drawCards();
     },
 
@@ -201,8 +188,19 @@ export default {
         this.gameEnd = true;
         this.playerTurn = false;
         // this.writeResult("blackjack");
+      } else if (
+        this.player.hasBlackjack === true &&
+        this.dealer.hasBlackjack === true
+      ) {
+        this.message = "PUSH, No winners here";
+        this.gameEnd = true;
+        this.playerTurn = false;
       } else if (!this.playerTurn) {
-        if (
+        if (this.dealer.hasBlackjack === true) {
+          this.message = "Dealer has BLACKJACK.  YOU LOSE!!";
+          this.gameEnd = true;
+          this.playerTurn = false;
+        } else if (
           this.dealer.cardTotal > 21 ||
           this.dealer.cardTotal < this.player.cardTotal
         ) {
@@ -219,23 +217,59 @@ export default {
     },
 
     hasBlackjack() {
-      return this.player.cardNum === 2 && this.player.cardTotal === 21;
+      if (
+        this.player.cardNum === 2 &&
+        this.player.cardTotal === 21 &&
+        this.dealer.cardNum === 2 &&
+        this.dealer.cardTotal === 21
+      ) {
+        this.player.hasBlackjack = true;
+        this.dealer.hasBlackjack = true;
+      } else if (
+        this.playerTurn === true &&
+        this.player.cardNum === 2 &&
+        this.player.cardTotal === 21
+      ) {
+        this.player.hasBlackjack = true;
+      } else if (
+        this.playerTurn === false &&
+        this.dealer.cardNum === 2 &&
+        this.dealer.cardTotal === 21
+      ) {
+        this.dealer.hasBlackjack = true;
+        this.checkWinner();
+      }
     },
 
     dealerTurn() {
       this.playerTurn = false;
-      this.hitMe(this.dealer, 1).then(() => {
-        if (
-          this.dealer.cardTotal < 17 ||
-          this.dealer.cardTotal <= this.player.cardTotal
-        ) {
-          this.dealerTurn();
-        } else if (this.dealer.cardTotal === 21) {
-          this.checkWinner();
-        } else {
-          this.checkWinner();
-        }
-      });
+      this.hasBlackjack();
+      if (this.dealer.hasBlackjack === true) {
+        this.checkWinner();
+      } else
+        this.hitMe(this.dealer, 1).then(() => {
+          if (
+            this.dealer.cardTotal < 17
+            // this.dealer.cardTotal <= this.player.cardTotal
+          ) {
+            this.dealerTurn();
+            this.checkWinner();
+          } else if (this.dealer.cardTotal === 21) {
+            this.checkWinner();
+          } else if (
+            this.dealer.cardTotal > 17 &&
+            this.dealer.cardTotal === this.player.cardTotal
+          ) {
+            this.checkWinner();
+          } else if (
+            this.dealer.cardTotal < 21 &&
+            this.dealer.cardTotal > this.player.cardTotal
+          ) {
+            this.checkWinner();
+          } else {
+            this.checkWinner();
+          }
+        });
     },
 
     writeResult(result) {
@@ -247,34 +281,53 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="css" scoped>
 #game-table {
+  font-family: "Abril Fatface", cursive;
   border: 1px solid black;
-  margin: 20px;
-  background-color: rgb(48, 11, 5);
+  background-color: rgb(31, 16, 16);
   color: rgb(175, 201, 26);
-}
-
-.player-class {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-}
-
-.dealer-class {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
 }
 
 .cards {
   margin: 5px;
 }
 
+#dealer-img,
+#player-img {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+#dealer-img > div:first-child {
+  /* visibility: hidden; */
+  display: none;
+}
+
+img {
+  width: 100px;
+}
+#total-hand {
+  /* position: absolute;
+  top: -1.5rem;
+  right: -1.5rem; */
+  border-radius: 50%;
+  background: #eff0fc;
+  width: 2rem;
+  height: 2rem;
+  font-size: 1rem;
+  color: red;
+  text-align: center;
+  line-height: 2em;
+  margin: 5px;
+  position: static;
+}
+
 .button {
   background-color: #4caf50;
   border: none;
-  color: white;
+  color: brown;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -285,24 +338,13 @@ export default {
   border-radius: 2em;
 }
 
-.button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
 .button:hover {
   outline: none;
   box-shadow: 5px black;
 }
 
-#dealer-img,
-#player-img {
-  display: flex;
-  justify-content: center;
-}
-
-#dealer-img > div:first-child {
-  /* visibility: hidden; */
-  display: none;
+.button:focus {
+  outline: none;
+  box-shadow: none;
 }
 </style>
