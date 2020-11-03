@@ -285,9 +285,19 @@ export default {
 #game-table {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background-color: #00430d;
-  color: rgb(175, 201, 26);
-  height: 100vh;
+  /* background-color: #00430d; */
+  background: rgb(0, 67, 13);
+  background: linear-gradient(
+    315deg,
+    rgba(0, 67, 13, 1) 0%,
+    rgba(0, 139, 5, 1) 100%
+  );
+  height: 80vh;
+  width: 85%;
+  min-height: 1200px;
+  max-height: 1300px;
+  margin: auto;
+  border: 15px inset #a50104;
 }
 
 h2 {

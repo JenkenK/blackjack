@@ -29,11 +29,12 @@ export default {
 #player {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin-bottom: 50px;
 }
 
 h2 {
-  font-weight: 300;
-  font-size: 36px;
+  font-weight: 350;
+  font-size: 44px;
   padding: 5px;
   margin: 10px;
 }
