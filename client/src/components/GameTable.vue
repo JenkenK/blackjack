@@ -285,7 +285,6 @@ export default {
 #game-table {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  /* background-color: #00430d; */
   background: rgb(0, 67, 13);
   background: linear-gradient(
     315deg,
@@ -328,6 +327,13 @@ h2 {
 
 .button:focus {
   outline: none;
+  box-shadow: none;
+}
+
+.button:disabled,
+.button[disabled] {
+  background-color: #cccccc;
+  color: #666666;
   box-shadow: none;
 }
 </style>

@@ -19,27 +19,17 @@ export default {
 #message-shown {
   font-size: 60px;
   color: #fca311;
-  animation-duration: infinite;
+  animation-duration: 0.5s;
   animation-name: blink;
   animation-iteration-count: infinite;
-  animation-direction: alternate;
 }
 
-@keyframes message-shown {
-  0% {
-    color: #000;
+@keyframes blink {
+  from {
+    color: #fca311;
   }
-  49% {
-    color: #000;
-  }
-  60% {
-    color: transparent;
-  }
-  99% {
-    color: transparent;
-  }
-  100% {
-    color: #000;
+  to {
+    color: red;
   }
 }
 </style>
