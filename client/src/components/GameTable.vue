@@ -55,8 +55,8 @@ export default {
   name: "game-table",
   components: {
     "message-box": Message,
-    dealer: Dealer,
-    player: Player,
+    "dealer": Dealer,
+    "player": Player,
   },
   data() {
     return {
@@ -101,6 +101,8 @@ export default {
       this.player.aces = 0;
       this.dealer.aces = 0;
       this.firstDraw = false;
+      this.hasBlackjack();
+      this.checkWinner();
       
     },
 
@@ -123,6 +125,8 @@ export default {
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
       this.firstDraw = false;
+      this.hasBlackjack()
+      this.checkWinner();
       
     },
 
@@ -163,7 +167,6 @@ export default {
     },
 
     hitMe(player, number) {
-      this.hasBlackjack();
       return CardsAPI.draw(this.deck_id, number).then((res) => {
         res.cards.forEach((card) => {
           player.hand.push(card);
@@ -173,6 +176,7 @@ export default {
             player.aces += 1;
           }
           this.totalHandValue(player);
+          this.hasBlackjack();
         });
       });
       // this.player.cardTotal = this.totalHandValue(player);
@@ -239,21 +243,21 @@ export default {
       ) {
         this.player.hasBlackjack = true;
         this.dealer.hasBlackjack = true;
-        this.checkWinner();
+        // this.checkWinner();
       } else if (
         this.playerTurn === true &&
         this.player.cardNum === 2 &&
         this.player.cardTotal === 21
       ) {
         this.player.hasBlackjack = true;
-        this.checkWinner()
+        // this.checkWinner()
       } else if (
         this.playerTurn === false &&
         this.dealer.cardNum === 2 &&
         this.dealer.cardTotal === 21
       ) {
         this.dealer.hasBlackjack = true;
-        this.checkWinner();
+        // this.checkWinner();
       }
     },
 
