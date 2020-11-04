@@ -136,10 +136,12 @@ export default {
         ) {
           cardTotal += 10;
         } else if (card.value === "ACE") {
-          if (cardTotal < 11 && player.aces <= 1) {
-            cardTotal += 11;
-          } else if (cardTotal > 21 && player.aces > 1) {
-            cardTotal += 1;
+          if (cardTotal < 11) {
+							cardTotal += 11;
+						} else if (cardTotal > 21) {
+							cardTotal -= 10;
+          }else {
+            cardTotal += 1
           }
         } else {
           cardTotal += parseInt(card.value);
