@@ -1,50 +1,77 @@
-use games_hub;
+use blackjack;
 db.dropDatabase();
 
-db.games.insertMany([
+db.history.insertMany([
     {
         name: "Jenken",
-        historyResult: [
-            {
-                win: true,
-                cardTotal: 20,
-                cardNum: 3,
-                blackjack: false
-            }
-        ]
+        history:
+            [
+                {
+                    win: true,
+                    cardTotal: 20,
+                    cardNum: 3,
+                    blackjack: false
+                },
+                {
+                    win: true,
+                    cardTotal: 20,
+                    cardNum: 3,
+                    blackjack: false
+                }
+            ]
     },
     {
         name: "Paul",
-        historyResult: [
-            {
-                win: false,
-                cardTotal: 23,
-                cardNum: 3,
-                blackjack: false
-            }
-        ]
+        history:
+            [
+                {
+                    win: false,
+                    cardTotal: 23,
+                    cardNum: 3,
+                    blackjack: false
+                },
+                {
+                    win: true,
+                    cardTotal: 20,
+                    cardNum: 3,
+                    blackjack: false
+                }
+            ]
     },
     {
         name: "Dave",
-        historyResult: [
-            {
-                win: true,
-                cardTotal: 21,
-                cardNum: 3,
-                blackjack: false
-            }
-        ]
+        history:
+            [
+                {
+                    win: true,
+                    cardTotal: 21,
+                    cardNum: 3,
+                    blackjack: false
+                },
+                {
+                    win: true,
+                    cardTotal: 20,
+                    cardNum: 3,
+                    blackjack: false
+                }
+            ]
     },
     {
         name: "Yana",
-        historyResult: [
-            {
-                win: true,
-                cardTotal: 21,
-                cardNum: 2,
-                backjack: true
-
-            }
-        ]
+        history:
+            [
+                {
+                    win: true,
+                    cardTotal: 21,
+                    cardNum: 2,
+                    backjack: true
+                },
+                {
+                    win: true,
+                    cardTotal: 20,
+                    cardNum: 3,
+                    blackjack: false
+                }
+            ]
     },
 ]);

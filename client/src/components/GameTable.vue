@@ -135,7 +135,6 @@ export default {
           card.value === "JACK"
         ) {
           player.cardTotal += 10;
-          this.checkAces(player, initialAces);
         } else if (card.value === "ACE") {
           player.cardTotal += 11;
           this.checkAces(player, initialAces);
@@ -169,6 +168,7 @@ export default {
             player.aces += 1;
           }
           this.totalHandValue(player);
+          this.hasBlackjack();
         });
       });
       this.player.cardTotal = this.totalHandValue(player);
