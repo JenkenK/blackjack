@@ -31,6 +31,7 @@ export default {
 .page-footer {
     font-family: 'Abril Fatface', cursive;
     font-size: 10px;
+
 }
 
 /* .tooltip-wrap {

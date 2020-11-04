@@ -3,15 +3,15 @@
     <div id="dealer">
       <div class="details">
         <h2>Dealer</h2>
-        <p v-if="!playerTurn" id="total-hand">{{ totalHandValue(dealer) }}</p>
+        <p v-if="!playerTurn && this.player.cardNum > 0" id="total-hand">{{ totalHandValue(dealer) }}</p>
       </div>
       <div>
         <div id="dealer-img">
           <div v-if="playerTurn">
-            <img src="../assets/back_of_card.png" alt="">
+            <img class="pre-dealer" src="../assets/back_of_card.png" alt="">
           </div>
           <div v-else>
-            <img :src="this.dealer.cardImg[0]" alt="" />
+            <img class="post-dealer" :src="this.dealer.cardImg[0]" alt="" />
           </div>
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
@@ -36,7 +36,7 @@
     <div class="col-3 sidebar">
       <message-box v-if="message" :message="message"></message-box>
     </div>
-    <aside id="aside">
+    <aside id="buttons">
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
         Draw Cards
       </button>
@@ -298,17 +298,29 @@ export default {
 #game-table {
   font-family: "Abril Fatface", cursive;
   border: 1px solid black;
-  background-color: rgb(31, 16, 16);
+  background-image: url("../assets/wood.jpeg");
   color: rgb(175, 201, 26);
 }
 
-#aside {
+#buttons {
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
 .cards {
   margin: 5px;
+}
+
+.pre-dealer {
+  transform: rotateY(180deg);  
+
+}
+
+.post-dealer {
+  transition: transform 0.3s;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
 }
 
 #dealer-img,
@@ -326,7 +338,7 @@ export default {
 }
 
 img {
-  width: 100px;
+  width: 10vw;
 }
 #total-hand {
   /* position: absolute;
@@ -347,7 +359,7 @@ img {
 .button {
   background-color: #4caf50;
   border: none;
-  color: brown;
+  color: rgb(53, 16, 16);
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
