@@ -2,7 +2,7 @@
   <div id="player">
     <div class="details">
       <h2>Player</h2>
-      <p id="total-hand">{{player.cardTotal }}</p>
+      <p id="total-hand">{{ player.cardTotal }}</p>
     </div>
     <div>
       <div id="player-img">
@@ -37,6 +37,7 @@ h2 {
   font-size: 44px;
   padding: 5px;
   margin: 10px;
+  color: white;
 }
 
 img {
