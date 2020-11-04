@@ -14,7 +14,7 @@
       <message-box v-if="message" :message="message"></message-box>
     </div>
     <aside id="buttons">
-      <button v-on:click="drawCards" v-if="firstDraw" class="button">
+      <button v-on:click="newGame()" v-if="firstDraw" class="button">
         Draw Cards
       </button>
       <button v-on:click="resetGame()" :disabled="playerTurn" class="button">
@@ -81,32 +81,16 @@ export default {
     });
   },
   methods: {
-    drawCards() {
-      CardsAPI.draw(this.deck_id, 4).then((res) => {
-        this.firstDraw = false;
-
-        // player side
-        this.player.hand.push(res.cards[0], res.cards[2]);
-        this.player.cardImg.push(res.cards[0].image, res.cards[2].image);
-        this.player.cardNum += 2;
-        this.player.cardTotal = this.totalHandValue(this.player);
-        //dealer side
-        this.dealer.hand.push(res.cards[1], res.cards[3]);
-        this.dealer.cardImg.push(res.cards[1].image, res.cards[3].image);
-        this.dealer.cardNum += 2;
-        this.dealer.cardTotal = this.totalHandValue(this.dealer);
-
-        this.playerTurn = true;
-        this.hasBlackjack();
-        this.checkWinner();
-      });
-    },
+   
     newGame() {
       this.message = "";
       this.player.hand = [];
       this.dealer.hand = [];
+      this.hitMe(this.player, 2);
+      this.hitMe(this.dealer, 2);
       this.playerTurn = true;
       this.player.aces = 0
+      this.firstDraw = false;
     },
     resetGame() {
       this.gameEnd = false;
@@ -123,7 +107,8 @@ export default {
       this.player.hasBlackjack = false;
       this.dealer.hasBlackjack = false;
       this.dealer.aces = 0;
-      this.drawCards();
+      this.hitMe(this.player, 2);
+      this.hitMe(this.dealer, 2);
     },
 
     totalHandValue(player) {
