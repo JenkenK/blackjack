@@ -17,16 +17,27 @@
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
         Draw Cards
       </button>
-      <button v-on:click="resetGame()" :disabled="playerTurn" class="button">
+      <button
+        v-on:click="resetGame()"
+        :disabled="playerTurn"
+        v-if="this.gameActive"
+        class="button"
+      >
         Deal Again!
       </button>
-      <button v-on:click="playerHit" :disabled="!playerTurn" class="button">
+      <button
+        v-on:click="playerHit"
+        :disabled="!playerTurn"
+        v-if="this.gameActive"
+        class="button"
+      >
         Hit Me
       </button>
       <button
         v-on:click="dealerTurn(dealer)"
         :disabled="!playerTurn"
         class="button"
+        v-if="this.gameActive"
       >
         Stick
       </button>
@@ -310,7 +321,7 @@ h2 {
 }
 
 .button {
-  background-color: #4caf50;
+  background-image: url("../assets/wood1.jpeg");
   border: none;
   color: black;
   padding: 15px 32px;
@@ -330,15 +341,11 @@ h2 {
   color: antiquewhite;
 }
 
-.button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
 .button:disabled,
 .button[disabled] {
-  background-color: #cccccc;
-  color: #666666;
+  background-color: #797979;
+  color: #303030;
   box-shadow: none;
+  cursor: default;
 }
 </style>
