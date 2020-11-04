@@ -89,12 +89,14 @@ export default {
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
       this.playerTurn = true;
-      this.player.aces = 0
+      this.player.aces = 0;
+      this.dealer.aces = 0;
       this.firstDraw = false;
     },
+    
     resetGame() {
       this.gameEnd = false;
-      this.playerTurn = false;
+      this.playerTurn = true;
       this.message = "";
       this.player.cardNum = 0;
       this.dealer.cardNum = 0;
@@ -107,36 +109,39 @@ export default {
       this.player.hasBlackjack = false;
       this.dealer.hasBlackjack = false;
       this.dealer.aces = 0;
+      this.player.aces = 0;
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
+      this.firstDraw = false;
     },
 
     totalHandValue(player) {
-      let cardTotal = 0;
+      player.cardTotal = 0
+      let initialAces = player.aces
       player.hand.forEach(card => {
         if (
           card.value === "KING" ||
           card.value === "QUEEN" ||
           card.value === "JACK"
         ) {
-          cardTotal += 10;
+          player.cardTotal += 10;
+          this.checkAces(player, initialAces);
         } else if (card.value === "ACE") {
-          if (cardTotal < 11) {
-							cardTotal += 11;
-						} else if (cardTotal > 21) {
-							cardTotal -= 10;
-          }else {
-            cardTotal += 1
-          }
-        } else {
-          cardTotal += parseInt(card.value);
+            player.cardTotal += 11;
+            this.checkAces(player, initialAces);
+        }
+        else {
+          player.cardTotal += parseInt(card.value);
+          this.checkAces(player, initialAces);
         }
       });
-      return cardTotal;
+      return player.cardTotal;
+      
     },
 
     playerHit() {
       return this.hitMe(this.player, 1).then(() => {
+        player.cardTotal = 0
         if (this.player.cardTotal === 21) {
           this.playerTurn = false;
           this.dealerTurn();
@@ -155,7 +160,7 @@ export default {
           if (card.value === "ACE") {
             player.aces += 1;
           }
-          player.cardTotal = this.totalHandValue(player);
+          this.totalHandValue(player);
         });
       });
         },
@@ -256,6 +261,12 @@ export default {
         });
     },
 
+    checkAces(player, initialAces) {
+            while (player.cardTotal > 21 && initialAces){
+        player.cardTotal -= 10;
+        initialAces -= 1;
+      }
+    },
     writeResult(result) {
       this.gameHistory.push({
         result: result,
