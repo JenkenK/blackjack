@@ -28,7 +28,7 @@ export default {
   @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
 
 #app {
-  margin: 0;
+  margin: 0 !important;
   padding: 0;
   text-align: center;
   font-family: 'Abril Fatface', cursive;

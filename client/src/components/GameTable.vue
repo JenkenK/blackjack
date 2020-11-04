@@ -2,16 +2,16 @@
   <div id="game-table">
     <div id="dealer">
       <div class="details">
-        <h2>Dealer</h2>
-        <p v-if="!playerTurn" id="total-hand">{{ totalHandValue(dealer) }}</p>
+        <h2 v-if="this.player.cardNum > 0">Dealer</h2>
+        <p v-if="!playerTurn && this.player.cardNum > 0" id="total-hand">{{ totalHandValue(dealer) }}</p>
       </div>
       <div>
         <div id="dealer-img">
           <div v-if="playerTurn">
-            <img src="../assets/back_of_card.png" alt="">
+            <img class="pre-dealer" src="../assets/back_of_card.png" alt="">
           </div>
           <div v-else>
-            <img :src="this.dealer.cardImg[0]" alt="" />
+            <img class="post-dealer" :src="this.dealer.cardImg[0]" alt="" />
           </div>
           <div v-for="(card, index) in this.dealer.cardImg" :key="index">
             <img :src="card" alt="" />
@@ -22,8 +22,8 @@
     </div>
     <div id="player">
       <div class="details">
-        <h2>Player</h2>
-        <p id="total-hand">{{ totalHandValue(player) }}</p>
+        <h2 v-if="this.player.cardNum > 0">Player</h2>
+        <p v-if="this.player.cardNum > 0" id="total-hand">{{ totalHandValue(player) }}</p>
       </div>
       <div>
         <div id="player-img">
@@ -36,7 +36,7 @@
     <div class="col-3 sidebar">
       <message-box v-if="message" :message="message"></message-box>
     </div>
-    <aside>
+    <aside id="buttons">
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
         Draw Cards
       </button>
@@ -219,19 +219,19 @@ export default {
         this.playerTurn = false;
       } else if (!this.playerTurn) {
         if (this.dealer.hasBlackjack === true) {
-          this.message = "Dealer has BLACKJACK.  YOU LOSE!!";
+          this.message = "Dealer has BLACKJACK. YOU LOSE!!";
           this.gameEnd = true;
           this.playerTurn = false;
         } else if (
           this.dealer.cardTotal > 21 ||
           this.dealer.cardTotal < this.player.cardTotal
         ) {
-          this.message = "Player WINS!!!";
+          this.message = "PLAYER WINS!!!";
           this.gameEnd = true;
         } else if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! NO WINNER";
         } else if (!this.playerTurn) {
-          this.message = "Dealer WINS!";
+          this.message = "DEALER WINS!";
           this.gameEnd = true;
           // this.writeResult("lost");
         }
@@ -304,15 +304,34 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
 #game-table {
   font-family: "Abril Fatface", cursive;
   border: 1px solid black;
-  background-color: rgb(31, 16, 16);
+  background-image: url("../assets/wood.jpeg");
   color: rgb(175, 201, 26);
+  height: 75vh;
+}
+
+#buttons {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .cards {
   margin: 5px;
+}
+
+.pre-dealer {
+  transform: rotateY(180deg);  
+
+}
+
+.post-dealer {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden; /* Safari */
+  backface-visibility: hidden;
 }
 
 #dealer-img,
@@ -330,8 +349,9 @@ export default {
 }
 
 img {
-  width: 100px;
+  width: 10vw;
 }
+
 #total-hand {
   /* position: absolute;
   top: -1.5rem;
@@ -351,7 +371,7 @@ img {
 .button {
   background-color: #4caf50;
   border: none;
-  color: brown;
+  color: rgb(53, 16, 16);
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
