@@ -3,15 +3,17 @@
   <div id="dealer">
     <div class="details">
       <h2>Dealer</h2>
-      <p id="total-hand">{{ totalHandValue(dealer) }}</p>
+      <p v-if="!playerTurn && this.player.cardNum > 0" id="total-hand">
+        {{ totalHandValue(dealer) }}
+      </p>
     </div>
     <div>
       <div id="dealer-img">
         <div v-if="playerTurn">
-          <img src="../assets/back_of_card.png" alt="" />
+          <img class="pre-dealer" src="../assets/back_of_card.png" alt="" />
         </div>
         <div v-else>
-          <img :src="this.dealer.cardImg[0]" alt="" />
+          <img class="post-dealer" :src="this.dealer.cardImg[0]" alt="" />
         </div>
         <div v-for="(card, index) in this.dealer.cardImg" :key="index">
           <img :src="card" alt="" />
@@ -77,5 +79,16 @@ img {
   line-height: 2em;
   margin: 5px;
   position: static;
+}
+
+.pre-dealer {
+  transform: rotateY(180deg);
+}
+
+.post-dealer {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  /* -webkit-visibility: hidden; */
+  backface-visibility: hidden;
 }
 </style>
