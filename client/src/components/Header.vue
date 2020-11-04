@@ -23,7 +23,8 @@ h1 {
     margin: none;
     margin-block-start: 0 !important;
     margin-block-end: 0 !important;
-    padding: 2vh 2vw
+    padding: 2vh 2vw;
+    
 
 }
 

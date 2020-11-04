@@ -2,7 +2,7 @@
   <div id="game-table">
     <div id="dealer">
       <div class="details">
-        <h2>Dealer</h2>
+        <h2 v-if="this.player.cardNum > 0">Dealer</h2>
         <p v-if="!playerTurn && this.player.cardNum > 0" id="total-hand">{{ totalHandValue(dealer) }}</p>
       </div>
       <div>
@@ -22,8 +22,8 @@
     </div>
     <div id="player">
       <div class="details">
-        <h2>Player</h2>
-        <p id="total-hand">{{ totalHandValue(player) }}</p>
+        <h2 v-if="this.player.cardNum > 0">Player</h2>
+        <p v-if="this.player.cardNum > 0" id="total-hand">{{ totalHandValue(player) }}</p>
       </div>
       <div>
         <div id="player-img">
@@ -300,6 +300,7 @@ export default {
   border: 1px solid black;
   background-image: url("../assets/wood.jpeg");
   color: rgb(175, 201, 26);
+  height: 75vh;
 }
 
 #buttons {
@@ -317,7 +318,7 @@ export default {
 }
 
 .post-dealer {
-  transition: transform 0.3s;
+  transition: transform 0.6s;
   transform-style: preserve-3d;
   -webkit-backface-visibility: hidden; /* Safari */
   backface-visibility: hidden;
@@ -340,6 +341,7 @@ export default {
 img {
   width: 10vw;
 }
+
 #total-hand {
   /* position: absolute;
   top: -1.5rem;
