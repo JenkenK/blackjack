@@ -1,5 +1,6 @@
 <template>
-    <main class="page-footer">
+  <section id="footer">
+    <h2>FOOTER YO!</h2>
         <h2>Check out the rules:</h2>
             <div class="tooltip-wrap">
                 <img id="resize" src="../assets/back_of_card.png" alt="Some Image" />
@@ -17,26 +18,22 @@
                         </p>
                     </div> 
             </div>
-    </main>
+  </section>
 </template>
 
 <script>
 export default {
-    name: "app-footer"
-
-}
+  name: "app-footer",
+};
 </script>
 
 <style lang="css" scoped>
-.page-footer {
-    font-family: 'Abril Fatface', cursive;
-    font-size: 10px;
+#footer {
+  font-family: "Abril Fatface", cursive;
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
 
-}
-
-/* .tooltip-wrap {
-  position: absolute;
-} */
 .tooltip-wrap .tooltip-content {
   display: none;
   position: absolute;
@@ -56,11 +53,13 @@ export default {
 }
 
 ul {
-    /* list-style-type: none; */
-    /* text-align: left; */
     list-style-position: inside;
     font-size: 15px;
     position: relative;
+
 }
 
+h2 {
+  font-size: 26px;
+}
 </style>

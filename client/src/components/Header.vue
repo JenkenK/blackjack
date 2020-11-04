@@ -3,14 +3,12 @@
     <h1>BLACKJACK</h1>
         
 </div>
-
 </template>
 
 <script>
 export default {
-    name: "app-header"
-}
-
+  name: "app-header",
+};
 </script>
 
 <style lang="css" scoped>
@@ -24,8 +22,6 @@ h1 {
     margin-block-start: 0 !important;
     margin-block-end: 0 !important;
     padding: 2vh 2vw;
-    
-
+ 
 }
-
 </style>

@@ -1,38 +1,15 @@
 <template>
   <div id="game-table">
-    <div id="dealer">
-      <div class="details">
-        <h2 v-if="this.player.cardNum > 0">Dealer</h2>
-        <p v-if="!playerTurn && this.player.cardNum > 0" id="total-hand">{{ totalHandValue(dealer) }}</p>
-      </div>
-      <div>
-        <div id="dealer-img">
-          <div v-if="playerTurn">
-            <img class="pre-dealer" src="../assets/back_of_card.png" alt="">
-          </div>
-          <div v-else>
-            <img class="post-dealer" :src="this.dealer.cardImg[0]" alt="" />
-          </div>
-          <div v-for="(card, index) in this.dealer.cardImg" :key="index">
-            <img :src="card" alt="" />
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <div id="player">
-      <div class="details">
-        <h2 v-if="this.player.cardNum > 0">Player</h2>
-        <p v-if="this.player.cardNum > 0" id="total-hand">{{ totalHandValue(player) }}</p>
-      </div>
-      <div>
-        <div id="player-img">
-          <div v-for="(card, index) in this.player.cardImg" :key="index">
-            <img :src="card" alt="" />
-          </div>
-        </div>
-      </div>
-    </div>
+    <dealer
+      :dealer="this.dealer"
+      :playerTurn="this.playerTurn"
+      :totalHandValue="this.totalHandValue"
+    ></dealer>
+    <player
+      :player="this.player"
+      :playerTurn="this.playerTurn"
+      :totalHandValue="this.totalHandValue"
+    ></player>
     <div class="col-3 sidebar">
       <message-box v-if="message" :message="message"></message-box>
     </div>
@@ -54,17 +31,22 @@
         Stick
       </button>
     </aside>
+    <message-box v-if="message" :message="message"></message-box>
   </div>
 </template>
 
 <script>
-import CardsAPI from "../api/CardsAPI";
-import MessageBox from "@/components/Messages.vue";
+import CardsAPI from "../api/CardsAPI.js";
+import Message from "@/components/Messages.vue";
+import Dealer from "@/components/Dealer.vue";
+import Player from "@/components/Player.vue";
 
 export default {
   name: "game-table",
   components: {
-    "message-box": MessageBox,
+    "message-box": Message,
+    dealer: Dealer,
+    player: Player,
   },
   data() {
     return {
@@ -168,12 +150,12 @@ export default {
 
     playerHit() {
       return this.hitMe(this.player, 1).then(() => {
-        if (this.player.cardTotal === 21){
-          this.playerTurn = false
+        if (this.player.cardTotal === 21) {
+          this.playerTurn = false;
           this.dealerTurn();
-        }else {
-        this.checkWinner()
-        };
+        } else {
+          this.checkWinner();
+        }
       });
     },
 
@@ -189,14 +171,6 @@ export default {
           player.cardTotal = this.totalHandValue(player);
         });
       });
-      // this.player.cardTotal = this.totalHandValue(player);
-      // if (this.hasBlackjack()) {
-      //   player.hasBlackjack = true;
-      //   if (this.dealer.cardTotal !== 10 && this.dealer.cardTotal !== 11) {
-      //     this.playerTurn = false;
-      //     this.checkWinner();
-      //   } else {
-      //     this.dealerTurn();
         },
 
     checkWinner() {
@@ -230,6 +204,7 @@ export default {
           this.gameEnd = true;
         } else if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! NO WINNER";
+          this.gameEnd = true;
         } else if (!this.playerTurn) {
           this.message = "DEALER WINS!";
           this.gameEnd = true;
@@ -366,29 +341,39 @@ img {
   line-height: 2em;
   margin: 5px;
   position: static;
+
 }
 
 .button {
   background-color: #4caf50;
   border: none;
-  color: rgb(53, 16, 16);
+  color: black;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 4px 2px;
+  margin: 10px 10px 10px;
   cursor: pointer;
   border-radius: 2em;
 }
 
 .button:hover {
   outline: none;
-  box-shadow: 5px black;
+  box-shadow: 3px 3px 5px rgb(44, 44, 44);
+  background-color: #800000;
+  color: antiquewhite;
 }
 
 .button:focus {
   outline: none;
+  box-shadow: none;
+}
+
+.button:disabled,
+.button[disabled] {
+  background-color: #cccccc;
+  color: #666666;
   box-shadow: none;
 }
 </style>
