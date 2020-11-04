@@ -17,7 +17,11 @@
 <script>
 export default {
   name: "player",
-  props: ["player", "playerTurn", "totalHandValue"],
+  props: {
+    player: Object,
+    playerTurn: Boolean,
+    totalHandValue: Function,
+  },
 };
 </script>
 
@@ -25,7 +29,7 @@ export default {
 #player {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 h2 {
@@ -36,7 +40,7 @@ h2 {
 }
 
 img {
-  width: 250px;
+  width: 8vw;
 }
 
 #player-img,

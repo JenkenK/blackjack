@@ -2,7 +2,6 @@
   <div id="app">
     <app-header></app-header>
     <game-table></game-table>
-    <button-field></button-field>
     <app-footer></app-footer>
   </div>
 </template>
@@ -11,7 +10,6 @@
 import GameTable from "./components/GameTable";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ButtonField from "./components/ButtonField";
 
 export default {
   name: "app",
@@ -19,7 +17,6 @@ export default {
     "game-table": GameTable,
     "app-header": Header,
     "app-footer": Footer,
-    "button-field": ButtonField,
   },
 };
 </script>
@@ -33,5 +30,6 @@ export default {
   text-align: center;
   font-family: "Abril Fatface", cursive;
   background-size: cover;
+  background-color: #548c2f;
 }
 </style>

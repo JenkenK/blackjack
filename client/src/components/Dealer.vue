@@ -3,15 +3,17 @@
   <div id="dealer">
     <div class="details">
       <h2>Dealer</h2>
-      <p v-if="!playerTurn" id="total-hand">{{ totalHandValue(dealer) }}</p>
+      <p v-if="!playerTurn" id="total-hand">
+        {{ totalHandValue(dealer) }}
+      </p>
     </div>
     <div>
       <div id="dealer-img">
         <div v-if="playerTurn">
-          <img src="../assets/back_of_card.png" alt="" />
+          <img class="pre-dealer" src="../assets/back_of_card.png" alt="" />
         </div>
         <div v-else>
-          <img :src="this.dealer.cardImg[0]" alt="" />
+          <img class="post-dealer" :src="this.dealer.cardImg[0]" alt="" />
         </div>
         <div v-for="(card, index) in this.dealer.cardImg" :key="index">
           <img :src="card" alt="" />
@@ -24,7 +26,12 @@
 <script>
 export default {
   name: "dealer",
-  props: ["dealer", "playerTurn", "totalHandValue"],
+  props: {
+    dealer: Object,
+    playerTurn: Boolean,
+    totalHandValue: Function,
+    player: Object,
+  },
 };
 </script>
 
@@ -32,7 +39,7 @@ export default {
 #dealer {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 h2 {
@@ -43,7 +50,7 @@ h2 {
 }
 
 img {
-  width: 250px;
+  width: 8vw;
 }
 
 #dealer-img > div:nth-child(2) {
@@ -72,5 +79,16 @@ img {
   line-height: 2em;
   margin: 5px;
   position: static;
+}
+
+.pre-dealer {
+  transform: rotateY(180deg);
+}
+
+.post-dealer {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  /* -webkit-visibility: hidden; */
+  backface-visibility: hidden;
 }
 </style>

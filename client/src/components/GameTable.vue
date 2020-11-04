@@ -4,34 +4,44 @@
       :dealer="this.dealer"
       :playerTurn="this.playerTurn"
       :totalHandValue="this.totalHandValue"
+      v-if="this.gameActive"
     ></dealer>
+    <message-box v-if="message" :message="message"></message-box>
     <player
       :player="this.player"
       :playerTurn="this.playerTurn"
       :totalHandValue="this.totalHandValue"
+      v-if="this.gameActive"
     ></player>
-    <div class="col-3 sidebar">
-      <message-box v-if="message" :message="message"></message-box>
-    </div>
-    <aside id="buttons">
+    <section>
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
         Draw Cards
       </button>
-      <button v-on:click="resetGame()" :disabled="playerTurn" class="button">
+      <button
+        v-on:click="resetGame()"
+        :disabled="playerTurn"
+        v-if="this.gameActive"
+        class="button"
+      >
         Deal Again!
       </button>
-      <button v-on:click="playerHit" :disabled="!playerTurn" class="button">
+      <button
+        v-on:click="playerHit"
+        :disabled="!playerTurn"
+        v-if="this.gameActive"
+        class="button"
+      >
         Hit Me
       </button>
       <button
         v-on:click="dealerTurn(dealer)"
         :disabled="!playerTurn"
         class="button"
+        v-if="this.gameActive"
       >
         Stick
       </button>
-    </aside>
-    <message-box v-if="message" :message="message"></message-box>
+    </section>
   </div>
 </template>
 
@@ -56,7 +66,6 @@ export default {
         cardTotal: 0,
         cardNum: 0,
         cardImg: [],
-        aces: 0,
         hasBlackjack: false,
       },
       dealer: {
@@ -64,11 +73,11 @@ export default {
         cardNum: 0,
         cardTotal: 0,
         cardImg: [],
-        aces: 0,
         dealerTurn: false,
         hasBlackjack: false,
       },
       gameHistory: [],
+      gameActive: false,
       gameEnd: true,
       playerTurn: false,
       message: "",
@@ -83,6 +92,7 @@ export default {
   methods: {
     drawCards() {
       CardsAPI.draw(this.deck_id, 4).then((res) => {
+        this.gameActive = true;
         this.firstDraw = false;
 
         // player side
@@ -106,7 +116,6 @@ export default {
       this.player.hand = [];
       this.dealer.hand = [];
       this.playerTurn = true;
-      this.player.aces = 0
     },
     resetGame() {
       this.gameEnd = false;
@@ -122,13 +131,12 @@ export default {
       this.dealer.cardTotal = 0;
       this.player.hasBlackjack = false;
       this.dealer.hasBlackjack = false;
-      this.dealer.aces = 0;
       this.drawCards();
     },
 
     totalHandValue(player) {
       let cardTotal = 0;
-      player.hand.forEach(card => {
+      player.hand.forEach((card) => {
         if (
           card.value === "KING" ||
           card.value === "QUEEN" ||
@@ -136,9 +144,9 @@ export default {
         ) {
           cardTotal += 10;
         } else if (card.value === "ACE") {
-          if (cardTotal < 11 && player.aces <= 1) {
+          if (cardTotal < 11) {
             cardTotal += 11;
-          } else if (cardTotal > 21 && player.aces > 1) {
+          } else if (cardTotal > 11) {
             cardTotal += 1;
           }
         } else {
@@ -165,13 +173,20 @@ export default {
           player.hand.push(card);
           player.cardImg.push(card.image);
           player.cardNum += 1;
-          if (card.value === "ACE") {
-            player.aces += 1;
-          }
           player.cardTotal = this.totalHandValue(player);
         });
       });
-        },
+      this.player.cardTotal = this.totalHandValue(player);
+      if (this.hasBlackjack()) {
+        player.hasBlackjack = true;
+        if (this.dealer.cardTotal !== 10 && this.dealer.cardTotal !== 11) {
+          this.playerTurn = false;
+          this.checkWinner();
+        } else {
+          this.dealerTurn();
+        }
+      }
+    },
 
     checkWinner() {
       if (this.player.cardTotal > 21) {
@@ -192,21 +207,24 @@ export default {
         this.gameEnd = true;
         this.playerTurn = false;
       } else if (!this.playerTurn) {
-        if (this.dealer.hasBlackjack === true) {
-          this.message = "Dealer has BLACKJACK. YOU LOSE!!";
+        if (this.dealer.cardTotal === this.player.cardTotal) {
+          this.message = "DRAW! No winner";
+          this.gameEnd = true;
+        } else if (this.dealer.hasBlackjack === true) {
+          this.message = "Dealer has BLACKJACK.  YOU LOSE!!";
           this.gameEnd = true;
           this.playerTurn = false;
         } else if (
           this.dealer.cardTotal > 21 ||
           this.dealer.cardTotal < this.player.cardTotal
         ) {
-          this.message = "PLAYER WINS!!!";
+          this.message = "Player WINS!!!";
           this.gameEnd = true;
         } else if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! NO WINNER";
           this.gameEnd = true;
         } else if (!this.playerTurn) {
-          this.message = "DEALER WINS!";
+          this.message = "Dealer WINS!";
           this.gameEnd = true;
           // this.writeResult("lost");
         }
@@ -242,6 +260,8 @@ export default {
       this.playerTurn = false;
       this.hasBlackjack();
       if (this.dealer.hasBlackjack === true) {
+        this.checkWinner();
+      } else if (this.totalHandValue(this.dealer) >= 17) {
         this.checkWinner();
       } else
         this.hitMe(this.dealer, 1).then(() => {
@@ -279,73 +299,29 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 #game-table {
-  font-family: "Abril Fatface", cursive;
-  border: 1px solid black;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   background-image: url("../assets/wood.jpeg");
-  color: rgb(175, 201, 26);
-  height: 75vh;
+  /* background: rgb(0, 67, 13);
+  background: linear-gradient(
+    315deg,
+    rgba(0, 67, 13, 1) 0%,
+    rgba(0, 139, 5, 1) 100%
+  ); */
+  width: 75%;
+  min-height: 80vh;
+  margin: auto;
+  border: 15px inset #a50104;
 }
 
-#buttons {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.cards {
-  margin: 5px;
-}
-
-.pre-dealer {
-  transform: rotateY(180deg);  
-
-}
-
-.post-dealer {
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  -webkit-backface-visibility: hidden; /* Safari */
-  backface-visibility: hidden;
-}
-
-#dealer-img,
-#player-img, 
-.details {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  align-items: baseline;
-}
-
-#dealer-img > div:nth-child(2) {
-  display: none;
-
-}
-
-img {
-  width: 10vw;
-}
-
-#total-hand {
-  /* position: absolute;
-  top: -1.5rem;
-  right: -1.5rem; */
-  border-radius: 50%;
-  background: #eff0fc;
-  width: 2rem;
-  height: 2rem;
-  font-size: 1rem;
-  color: red;
-  text-align: center;
-  line-height: 2em;
-  margin: 5px;
-  position: static;
-
+h2 {
+  font-weight: 300;
+  font-size: 36px;
 }
 
 .button {
-  background-color: #4caf50;
+  background-image: url("../assets/wood1.jpeg");
   border: none;
   color: black;
   padding: 15px 32px;
@@ -365,15 +341,11 @@ img {
   color: antiquewhite;
 }
 
-.button:focus {
-  outline: none;
-  box-shadow: none;
-}
-
 .button:disabled,
 .button[disabled] {
-  background-color: #cccccc;
-  color: #666666;
+  background-color: #797979;
+  color: #303030;
   box-shadow: none;
+  cursor: default;
 }
 </style>
