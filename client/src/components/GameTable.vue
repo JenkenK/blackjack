@@ -107,6 +107,7 @@ export default {
     },
 
     resetGame() {
+      // this.writeResult()
       this.gameEnd = false;
       this.playerTurn = true;
       this.message = "";
@@ -127,6 +128,9 @@ export default {
       this.firstDraw = false;
       this.hasBlackjack();
       this.checkWinner();
+
+      // when we click deal again after a round, we want it to hit the server and write into DB
+      //
     },
 
     totalHandValue(player) {
@@ -197,7 +201,7 @@ export default {
         this.message = "Player has BLAAAAACKJAAAACK!";
         this.gameEnd = true;
         this.playerTurn = false;
-        // this.writeResult("blackjack");
+        // this.writeResult("win");
       } else if (
         this.player.hasBlackjack === true &&
         this.dealer.hasBlackjack === true
