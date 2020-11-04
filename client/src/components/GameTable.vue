@@ -175,7 +175,7 @@ export default {
           if (card.value === "ACE") {
             player.aces += 1;
           }
-          this.totalHandValue(player);
+          this.totalHandValue(player)
           this.hasBlackjack();
         });
       });
@@ -256,9 +256,9 @@ export default {
         this.dealer.cardNum === 2 &&
         this.dealer.cardTotal === 21
       ) {
-        this.dealer.hasBlackjack = true;
-        // this.checkWinner();
+        this.dealer.hasBlackjack = true;  
       }
+        this.checkWinner();
     },
 
     dealerTurn() {
