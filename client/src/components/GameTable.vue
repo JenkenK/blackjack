@@ -250,6 +250,8 @@ export default {
       this.hasBlackjack();
       if (this.dealer.hasBlackjack === true) {
         this.checkWinner();
+      } else if (this.totalHandValue(this.dealer) >= 17) {
+        this.checkWinner();
       } else
         this.hitMe(this.dealer, 1).then(() => {
           if (

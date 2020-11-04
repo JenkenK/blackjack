@@ -3,7 +3,7 @@
   <div id="dealer">
     <div class="details">
       <h2>Dealer</h2>
-      <p v-if="!playerTurn && this.player.cardNum > 0" id="total-hand">
+      <p v-if="!playerTurn" id="total-hand">
         {{ totalHandValue(dealer) }}
       </p>
     </div>
