@@ -3,7 +3,7 @@
   <div id="dealer">
     <div class="details">
       <h2>Dealer</h2>
-      <p v-if="!playerTurn" id="total-hand">{{ totalHandValue(dealer) }}</p>
+      <p id="total-hand">{{ totalHandValue(dealer) }}</p>
     </div>
     <div>
       <div id="dealer-img">
@@ -28,6 +28,7 @@ export default {
     dealer: Object,
     playerTurn: Boolean,
     totalHandValue: Function,
+    player: Object,
   },
 };
 </script>

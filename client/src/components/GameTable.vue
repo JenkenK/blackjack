@@ -4,11 +4,13 @@
       :dealer="this.dealer"
       :playerTurn="this.playerTurn"
       :totalHandValue="this.totalHandValue"
+      v-if="this.gameActive"
     ></dealer>
     <player
       :player="this.player"
       :playerTurn="this.playerTurn"
       :totalHandValue="this.totalHandValue"
+      v-if="this.gameActive"
     ></player>
     <section>
       <button v-on:click="drawCards" v-if="firstDraw" class="button">
@@ -64,6 +66,7 @@ export default {
         hasBlackjack: false,
       },
       gameHistory: [],
+      gameActive: false,
       gameEnd: true,
       playerTurn: false,
       message: "",
@@ -78,6 +81,7 @@ export default {
   methods: {
     drawCards() {
       CardsAPI.draw(this.deck_id, 4).then((res) => {
+        this.gameActive = true;
         this.firstDraw = false;
 
         // player side
