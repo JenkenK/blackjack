@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import gameService from "../services/gamesService.js";
 import CardsAPI from "../api/CardsAPI.js";
 import Message from "@/components/Messages.vue";
 import Dealer from "@/components/Dealer.vue";
@@ -76,7 +77,7 @@ export default {
         dealerTurn: false,
         hasBlackjack: false,
       },
-      gameHistory: [],
+      gameHistory: null,
       gameActive: false,
       gameEnd: true,
       playerTurn: false,
@@ -88,8 +89,14 @@ export default {
     CardsAPI.shuffleNewDeck().then((res) => {
       this.deck_id = res.deck_id;
     });
+
+    this.fetchHistory();
   },
   methods: {
+    fetchHistory() {
+      gameService.getResult().then((results) => (this.gameHistory = results));
+    },
+
     newGame() {
       this.gameActive = true;
       this.hasBlackjack();
