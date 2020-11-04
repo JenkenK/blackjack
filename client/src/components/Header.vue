@@ -1,8 +1,7 @@
 <template>
-<div>
-    <h1>BLACKJACK</h1>
-        
-</div>
+  <div id="header">
+    <h1>BLACKJACK.</h1>
+  </div>
 </template>
 
 <script>
@@ -12,16 +11,15 @@ export default {
 </script>
 
 <style lang="css" scoped>
-div {
-    font-family: 'Abril Fatface', cursive;
-    font-size: 20px;
-
+header {
+  font-family: "Abril Fatface", cursive;
+  margin: 0;
+  padding: 0;
 }
+
 h1 {
-    margin: none;
-    margin-block-start: 0 !important;
-    margin-block-end: 0 !important;
-    padding: 2vh 2vw;
- 
+  font-size: 46px;
+  letter-spacing: 6px;
+  text-decoration: underline;
 }
 </style>

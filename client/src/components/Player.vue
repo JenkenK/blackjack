@@ -17,7 +17,11 @@
 <script>
 export default {
   name: "player",
-  props: ["player", "playerTurn", "totalHandValue"],
+  props: {
+    player: Object,
+    playerTurn: Boolean,
+    totalHandValue: Function,
+  },
 };
 </script>
 
