@@ -33,6 +33,7 @@ export default {
   margin: 0;
   padding: 0;
   font-size: 10px;
+}
 
 .tooltip-wrap .tooltip-content {
   display: none;
@@ -41,22 +42,21 @@ export default {
   left: 5%;
   right: 5%;
   background-color: #fff;
-  padding: .5em;
+  padding: 0.5em;
 }
 .tooltip-wrap:hover .tooltip-content {
   display: block;
 }
 
 #resize {
-    width: 30px;
-    height: auto;
+  width: 30px;
+  height: auto;
 }
 
 ul {
-    list-style-position: inside;
-    font-size: 15px;
-    position: relative;
-
+  list-style-position: inside;
+  font-size: 15px;
+  position: relative;
 }
 
 h2 {
