@@ -2,7 +2,7 @@
   <div id="player">
     <div class="details">
       <h2>Player</h2>
-      <p id="total-hand">{{ totalHandValue(player) }}</p>
+      <p id="total-hand">{{player.cardTotal }}</p>
     </div>
     <div>
       <div id="player-img">

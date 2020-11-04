@@ -3,9 +3,7 @@
   <div id="dealer">
     <div class="details">
       <h2>Dealer</h2>
-      <p v-if="!playerTurn" id="total-hand">
-        {{ totalHandValue(dealer) }}
-      </p>
+      <p v-if="!playerTurn" id="total-hand">{{ dealer.cardTotal }}</p>
     </div>
     <div>
       <div id="dealer-img">
