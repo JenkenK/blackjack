@@ -39,7 +39,7 @@ export default {
 #dealer {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 h2 {
@@ -50,7 +50,7 @@ h2 {
 }
 
 img {
-  width: 250px;
+  width: 8vw;
 }
 
 #dealer-img > div:nth-child(2) {

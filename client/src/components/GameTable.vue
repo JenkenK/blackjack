@@ -6,6 +6,7 @@
       :totalHandValue="this.totalHandValue"
       v-if="this.gameActive"
     ></dealer>
+    <message-box v-if="message" :message="message"></message-box>
     <player
       :player="this.player"
       :playerTurn="this.playerTurn"
@@ -30,7 +31,6 @@
         Stick
       </button>
     </section>
-    <message-box v-if="message" :message="message"></message-box>
   </div>
 </template>
 
@@ -291,16 +291,15 @@ export default {
 #game-table {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-  background: rgb(0, 67, 13);
+  background-image: url("../assets/wood.jpeg");
+  /* background: rgb(0, 67, 13);
   background: linear-gradient(
     315deg,
     rgba(0, 67, 13, 1) 0%,
     rgba(0, 139, 5, 1) 100%
-  );
-  height: 80vh;
-  width: 85%;
-  min-height: 1200px;
-  max-height: 1300px;
+  ); */
+  width: 75%;
+  min-height: 80vh;
   margin: auto;
   border: 15px inset #a50104;
 }
