@@ -30,5 +30,6 @@ export default {
   text-align: center;
   font-family: "Abril Fatface", cursive;
   background-size: cover;
+  background-color: pink;
 }
 </style>

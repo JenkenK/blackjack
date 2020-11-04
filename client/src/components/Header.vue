@@ -21,5 +21,9 @@ h1 {
   font-size: 46px;
   letter-spacing: 6px;
   text-decoration: underline;
+  margin: none;
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+  padding: 2vh 2vw;
 }
 </style>
