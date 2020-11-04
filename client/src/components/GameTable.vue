@@ -102,6 +102,8 @@ export default {
       this.player.aces = 0;
       this.dealer.aces = 0;
       this.firstDraw = false;
+      this.hasBlackjack();
+      this.checkWinner();
     },
 
     resetGame() {
@@ -123,6 +125,8 @@ export default {
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
       this.firstDraw = false;
+      this.hasBlackjack();
+      this.checkWinner();
     },
 
     totalHandValue(player) {
@@ -189,7 +193,7 @@ export default {
         this.gameEnd = true;
         this.playerTurn = false;
         // this.writeResult("lost");
-      } else if (this.player.hasBlackjack) {
+      } else if (this.player.hasBlackjack === true) {
         this.message = "Player has BLAAAAACKJAAAACK!";
         this.gameEnd = true;
         this.playerTurn = false;
@@ -247,8 +251,8 @@ export default {
         this.dealer.cardTotal === 21
       ) {
         this.dealer.hasBlackjack = true;
-        this.checkWinner();
       }
+      this.checkWinner();
     },
 
     dealerTurn() {
