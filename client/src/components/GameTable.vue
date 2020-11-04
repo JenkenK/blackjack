@@ -91,6 +91,8 @@ export default {
   },
   methods: {
     newGame() {
+      this.gameActive = true;
+      this.hasBlackjack();
       this.message = "";
       this.player.hand = [];
       this.dealer.hand = [];
