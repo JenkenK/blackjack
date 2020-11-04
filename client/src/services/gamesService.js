@@ -7,6 +7,10 @@ export default {
     },
 
     updateResult(result) {
+        // const parsed = Object.keys(result).reduce((acc, key) => {
+        //     if (key === "_id") return { ...acc, _id: result[key] };
+        //     return { ...acc, [key]: result[key].toString() };
+        // }, {})
         return fetch(baseURL + result._id, {
             method: "PUT",
             body: JSON.stringify(result),

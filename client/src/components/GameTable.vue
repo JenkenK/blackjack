@@ -4,16 +4,16 @@
     <section id="history-wrapper">
       <h2>History:</h2>
       <div class="history-details" v-if="this.gameHistory">
-        Wins:{{ this.gameHistory[0].win }}
+        Wins: {{ this.gameHistory.win }}
       </div>
       <div v-if="this.gameHistory" class="history-details">
-        Losses:{{ this.gameHistory[0].loss }}
+        Losses: {{ this.gameHistory.loss }}
       </div>
       <div v-if="this.gameHistory" class="history-details">
-        Draws:{{ this.gameHistory[0].draw }}
+        Draws: {{ this.gameHistory.draw }}
       </div>
       <div v-if="this.gameHistory" class="history-details">
-        Blackjack(s):{{ this.gameHistory[0].blackjack }}
+        Blackjacks: {{ this.gameHistory.blackjack }}
       </div>
     </section>
     <dealer
@@ -85,6 +85,7 @@ export default {
         cardTotal: 0,
         cardNum: 0,
         cardImg: [],
+        aces: 0,
         hasBlackjack: false,
       },
       dealer: {
@@ -93,6 +94,7 @@ export default {
         cardTotal: 0,
         cardImg: [],
         dealerTurn: false,
+        aces: 0,
         hasBlackjack: false,
       },
       gameHistory: null,
@@ -112,27 +114,28 @@ export default {
   },
   methods: {
     fetchHistory() {
-      gameService.getResult().then((results) => (this.gameHistory = results));
+      gameService.getResult().then((results) => {
+        const [result] = results;
+        const parsed = Object.keys(result).reduce((acc, key) => {
+          if (key === "_id") return { ...acc, _id: result[key] };
+          return { ...acc, [key]: parseInt(result[key]) };
+        }, {});
+        this.gameHistory = parsed;
+      });
     },
 
     newGame() {
       this.gameActive = true;
-      this.hasBlackjack();
       this.message = "";
-      this.player.hand = [];
-      this.dealer.hand = [];
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
       this.playerTurn = true;
-      this.player.aces = 0;
-      this.dealer.aces = 0;
       this.firstDraw = false;
       this.hasBlackjack();
-      this.checkWinner();
     },
 
     resetGame() {
-      // this.writeResult()
+      this.writeResult();
       this.gameEnd = false;
       this.playerTurn = true;
       this.message = "";
@@ -152,7 +155,6 @@ export default {
       this.hitMe(this.dealer, 2);
       this.firstDraw = false;
       this.hasBlackjack();
-      this.checkWinner();
 
       // when we click deal again after a round, we want it to hit the server and write into DB
       //
@@ -221,12 +223,13 @@ export default {
         this.message = "Dealer WINS!";
         this.gameEnd = true;
         this.playerTurn = false;
-        // this.writeResult("lost");
+        this.gameHistory.loss += 1;
       } else if (this.player.hasBlackjack === true) {
         this.message = "Player has BLAAAAACKJAAAACK!";
         this.gameEnd = true;
         this.playerTurn = false;
-        // this.writeResult("win");
+        this.gameHistory.win += 1;
+        this.gameHistory.blackjack += 1;
       } else if (
         this.player.hasBlackjack === true &&
         this.dealer.hasBlackjack === true
@@ -234,27 +237,32 @@ export default {
         this.message = "PUSH, No winners here";
         this.gameEnd = true;
         this.playerTurn = false;
+        this.gameHistory.draw += 1;
       } else if (!this.playerTurn) {
         if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! No winner";
           this.gameEnd = true;
+          this.gameHistory.draw += 1;
         } else if (this.dealer.hasBlackjack === true) {
           this.message = "Dealer has BLACKJACK.  YOU LOSE!!";
           this.gameEnd = true;
           this.playerTurn = false;
+          this.gameHistory.loss += 1;
         } else if (
           this.dealer.cardTotal > 21 ||
           this.dealer.cardTotal < this.player.cardTotal
         ) {
           this.message = "Player WINS!!!";
           this.gameEnd = true;
+          this.gameHistory.win += 1;
         } else if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! NO WINNER";
           this.gameEnd = true;
+          this.gameHistory.draw += 1;
         } else if (!this.playerTurn) {
           this.message = "Dealer WINS!";
           this.gameEnd = true;
-          // this.writeResult("lost");
+          this.gameHistory.loss += 1;
         }
       }
     },
@@ -324,9 +332,12 @@ export default {
       }
     },
     writeResult(result) {
-      this.gameHistory.push({
-        result: result,
-      });
+      // this.gameHistory.push({
+      //   result: result,
+      // });
+      // eventBus.$emit("result-added", result);
+
+      gameService.updateResult(this.gameHistory);
     },
   },
 };

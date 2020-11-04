@@ -3,9 +3,9 @@ db.dropDatabase();
 
 db.history.insertMany([
     {
-        win: '1',
-        loss: '2',
-        draw: '3',
-        blackjack: '1'
+        win: '0',
+        loss: '0',
+        draw: '0',
+        blackjack: '0'
     }
 ]);
