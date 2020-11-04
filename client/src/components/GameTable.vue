@@ -1,5 +1,21 @@
 <template>
   <div id="game-table">
+    <!-- <game-history></game-history> -->
+    <section id="history-wrapper">
+      <h2>History:</h2>
+      <div class="history-details" v-if="this.gameHistory">
+        Wins:{{ this.gameHistory[0].win }}
+      </div>
+      <div v-if="this.gameHistory" class="history-details">
+        Losses:{{ this.gameHistory[0].loss }}
+      </div>
+      <div v-if="this.gameHistory" class="history-details">
+        Draws:{{ this.gameHistory[0].draw }}
+      </div>
+      <div v-if="this.gameHistory" class="history-details">
+        Blackjack(s):{{ this.gameHistory[0].blackjack }}
+      </div>
+    </section>
     <dealer
       :dealer="this.dealer"
       :playerTurn="this.playerTurn"
@@ -51,6 +67,7 @@ import CardsAPI from "../api/CardsAPI.js";
 import Message from "@/components/Messages.vue";
 import Dealer from "@/components/Dealer.vue";
 import Player from "@/components/Player.vue";
+// import GameHistory from "@/components/GameHistory.vue";
 
 export default {
   name: "game-table",
@@ -58,6 +75,7 @@ export default {
     "message-box": Message,
     dealer: Dealer,
     player: Player,
+    // "game-history": GameHistory,
   },
   data() {
     return {
@@ -334,6 +352,16 @@ export default {
 h2 {
   font-weight: 300;
   font-size: 36px;
+  color: white;
+  margin: 10px;
+}
+
+.history-details {
+  color: white;
+}
+
+#history-wrapper {
+  text-align: center;
 }
 
 .button {
