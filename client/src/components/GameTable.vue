@@ -188,11 +188,6 @@ export default {
         this.gameEnd = true;
         this.playerTurn = false;
         // this.writeResult("lost");
-      } else if (this.player.hasBlackjack) {
-        this.message = "Player has BLAAAAACKJAAAACK!";
-        this.gameEnd = true;
-        this.playerTurn = false;
-        // this.writeResult("blackjack");
       } else if (
         this.player.hasBlackjack === true &&
         this.dealer.hasBlackjack === true
@@ -200,6 +195,11 @@ export default {
         this.message = "PUSH, No winners here";
         this.gameEnd = true;
         this.playerTurn = false;
+      } else if (this.player.hasBlackjack) {
+        this.message = "Player has BLAAAAACKJAAAACK!";
+        this.gameEnd = true;
+        this.playerTurn = false;
+        // this.writeResult("blackjack");
       } else if (!this.playerTurn) {
         if (this.dealer.cardTotal === this.player.cardTotal) {
           this.message = "DRAW! No winner";
