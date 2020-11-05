@@ -14,7 +14,7 @@
       v-if="this.gameActive"
     ></player>
     <section id="buttons">
-      <button v-on:click="newGame()" v-if="firstDraw" class="button">
+      <button v-on:click="newGame()" v-if="firstDraw" class="button" id="draw">
         Draw Cards
       </button>
       <button
@@ -22,6 +22,7 @@
         :disabled="playerTurn"
         v-if="this.gameActive"
         class="button"
+        id="deal"
       >
         Deal Again!
       </button>
@@ -30,14 +31,16 @@
         :disabled="!playerTurn"
         v-if="this.gameActive"
         class="button"
+        id="hit"
       >
         Hit Me
       </button>
       <button
         v-on:click="dealerTurn(dealer)"
         :disabled="!playerTurn"
-        class="button"
         v-if="this.gameActive"
+        class="button"
+        id="stick"
       >
         Stick
       </button>
