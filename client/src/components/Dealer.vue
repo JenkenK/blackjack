@@ -45,6 +45,7 @@ h2 {
   font-size: 44px;
   padding: 5px;
   margin: 10px;
+  color: white;
 }
 
 img {

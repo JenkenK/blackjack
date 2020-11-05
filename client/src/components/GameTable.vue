@@ -66,6 +66,7 @@ export default {
         cardTotal: 0,
         cardNum: 0,
         cardImg: [],
+        aces: 0,
         hasBlackjack: false,
       },
       dealer: {
@@ -74,6 +75,7 @@ export default {
         cardTotal: 0,
         cardImg: [],
         dealerTurn: false,
+        aces: 0,
         hasBlackjack: false,
       },
       gameHistory: [],
@@ -92,16 +94,12 @@ export default {
   methods: {
     newGame() {
       this.gameActive = true;
-      this.hasBlackjack();
       this.message = "";
-      this.player.hand = [];
-      this.dealer.hand = [];
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
       this.playerTurn = true;
-      this.player.aces = 0;
-      this.dealer.aces = 0;
       this.firstDraw = false;
+      this.hasBlackjack();
     },
 
     resetGame() {
@@ -123,6 +121,7 @@ export default {
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
       this.firstDraw = false;
+      this.hasBlackjack();
     },
 
     totalHandValue(player) {
@@ -319,6 +318,8 @@ export default {
 h2 {
   font-weight: 300;
   font-size: 36px;
+  color: white;
+  margin: 10px;
 }
 
 .button {
