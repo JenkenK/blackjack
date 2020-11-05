@@ -246,8 +246,8 @@ export default {
         this.dealer.cardTotal === 21
       ) {
         this.dealer.hasBlackjack = true;
-        this.checkWinner();
       }
+      this.checkWinner();
     },
 
     dealerTurn() {
