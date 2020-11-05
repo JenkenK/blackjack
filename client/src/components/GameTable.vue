@@ -195,7 +195,7 @@ export default {
         this.message = "PUSH, No winners here";
         this.gameEnd = true;
         this.playerTurn = false;
-      } else if (this.player.hasBlackjack) {
+      } else if (this.player.hasBlackjack === true) {
         this.message = "Player has BLAAAAACKJAAAACK!";
         this.gameEnd = true;
         this.playerTurn = false;
