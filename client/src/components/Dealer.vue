@@ -70,9 +70,9 @@ img {
   right: -1.5rem; */
   border-radius: 50%;
   background: #eff0fc;
-  width: 2rem;
-  height: 2rem;
-  font-size: 1rem;
+  width: 4rem;
+  height: 4rem;
+  font-size: 2rem;
   color: red;
   text-align: center;
   line-height: 2em;
