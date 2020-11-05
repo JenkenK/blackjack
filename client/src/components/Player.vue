@@ -42,6 +42,7 @@ h2 {
 
 img {
   width: 8vw;
+  margin: 2px;
 }
 
 #player-img,

@@ -50,6 +50,7 @@ h2 {
 
 img {
   width: 8vw;
+  margin: 2px;
 }
 
 #dealer-img > div:nth-child(2) {
