@@ -1,6 +1,7 @@
 <template>
   <section id="footer">
-    <h2>FOOTER YO!</h2>
+    <h2>Copyright &#169; The SUITS</h2>
+    <p>Brought to you by: Dave, Jenken, Paul, Yana</p>
   </section>
 </template>
 
@@ -17,10 +18,14 @@ export default {
   padding: 0;
 }
 h2 {
-  font-size: 26px;
+  font-size: 20px;
   margin: none;
   margin-block-start: 0 !important;
   margin-block-end: 0 !important;
-  padding: 2vh 2vw;
+  padding: 5px;
+}
+p {
+  margin: 0 !important;
+  padding: 10px;
 }
 </style>
