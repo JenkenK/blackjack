@@ -33,7 +33,7 @@ export default {
   margin: 0;
   padding: 0;
   font-size: 10px;
-
+}
 .tooltip-wrap .tooltip-content {
   display: none;
   position: absolute;
