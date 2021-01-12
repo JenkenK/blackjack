@@ -184,13 +184,13 @@ export default {
     },
 
     checkWinner() {
-      if (this.player.cardTotal > 21) {
-        this.message = "Dealer WINS!";
+      if (this.player.hasBlackjack) {
+        this.message = "Player has BLAAAAACKJAAAACK!";
         this.gameEnd = true;
         this.playerTurn = false;
         // this.writeResult("lost");
-      } else if (this.player.hasBlackjack) {
-        this.message = "Player has BLAAAAACKJAAAACK!";
+      } else if (this.player.cardTotal > 21) {
+        this.message = "Dealer WINS!";
         this.gameEnd = true;
         this.playerTurn = false;
         // this.writeResult("blackjack");
@@ -228,6 +228,13 @@ export default {
 
     hasBlackjack() {
       if (
+        this.playerTurn === true &&
+        this.player.cardNum === 2 &&
+        this.player.cardTotal === 21
+      ) {
+        this.player.hasBlackjack = true;
+      }
+      else if (
         this.player.cardNum === 2 &&
         this.player.cardTotal === 21 &&
         this.dealer.cardNum === 2 &&
@@ -235,20 +242,15 @@ export default {
       ) {
         this.player.hasBlackjack = true;
         this.dealer.hasBlackjack = true;
-      } else if (
-        this.playerTurn === true &&
-        this.player.cardNum === 2 &&
-        this.player.cardTotal === 21
-      ) {
-        this.player.hasBlackjack = true;
-      } else if (
+      } 
+      else if (
         this.playerTurn === false &&
         this.dealer.cardNum === 2 &&
         this.dealer.cardTotal === 21
       ) {
         this.dealer.hasBlackjack = true;
-        this.checkWinner();
       }
+    this.checkWinner();
     },
 
     dealerTurn() {
