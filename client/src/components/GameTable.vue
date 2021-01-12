@@ -102,6 +102,7 @@ export default {
       this.player.aces = 0;
       this.dealer.aces = 0;
       this.firstDraw = false;
+      this.checkWinner();
     },
 
     resetGame() {
@@ -123,6 +124,8 @@ export default {
       this.hitMe(this.player, 2);
       this.hitMe(this.dealer, 2);
       this.firstDraw = false;
+      this.hasBlackjack();
+      this.checkWinner();
     },
 
     totalHandValue(player) {
